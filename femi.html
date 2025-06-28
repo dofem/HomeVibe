@@ -1,0 +1,2897 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeVibe - Affordable Home Essentials for Nigerian Homes</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b35;
+            --primary-dark: #e55530;
+            --secondary-color: #2c5aa0;
+            --accent-color: #ffd23f;
+            --text-dark: #1a1a1a;
+            --text-gray: #666;
+            --text-light: #999;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-color: #e0e0e0;
+            --success-color: #28a745;
+            --naira-color: #008751;
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.2);
+            --gradient-primary: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --gradient-secondary: linear-gradient(135deg, #2c5aa0 0%, #1e3a8a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--bg-white);
+            box-shadow: var(--shadow-light);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .header-top {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .header-main {
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo i {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 50px 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-action {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .header-action:hover {
+            background: var(--bg-light);
+            color: var(--primary-color);
+        }
+
+        .header-action .badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            padding: 15px 0;
+        }
+
+        .nav-item {
+            position: relative;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-top: 140px;
+            min-height: calc(100vh - 140px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: var(--shadow-heavy);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: var(--bg-white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 20px;
+            background: var(--bg-light);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-medium);
+            background: white;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+
+        .product-card {
+            background: var(--bg-white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--bg-light);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--naira-color);
+            margin-bottom: 15px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: var(--accent-color);
+        }
+
+        .rating-text {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-gray);
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-btn:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .wishlist-btn.active {
+            color: var(--primary-color);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        /* Categories */
+        .categories {
+            padding: 80px 0;
+            background: var(--bg-white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            background: var(--bg-light);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+
+        .category-card:hover::before {
+            left: 0;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            color: white;
+        }
+
+        .category-card * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            color: white;
+        }
+
+        .category-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .category-count {
+            color: var(--text-gray);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-count {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Cart Styles */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: var(--shadow-heavy);
+            z-index: 2000;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: var(--bg-light);
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--naira-color);
+            font-weight: 600;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            background: var(--bg-light);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .payment-method {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            text-align: center;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .search-bar {
+                order: 3;
+                width: 100%;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .cart-sidebar {
+                width: 100vw;
+                right: -100vw;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25d366;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            text-decoration: none;
+            box-shadow: var(--shadow-medium);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background: #128c7e;
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-medium);
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: #dc3545;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                Free delivery on orders above ₦50,000 | WhatsApp: +234 812 345 6789
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="header-content">
+                    <a href="#" class="logo" onclick="showPage('home')">
+                        <i class="fas fa-home"></i>
+                        <span>HomeVibe</span>
+                    </a>
+
+                    <div class="search-bar">
+                        <input type="text" class="search-input" placeholder="Search for furniture, decor, and more..."
+                            id="searchInput">
+                        <button class="search-btn" onclick="performSearch()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="header-actions">
+                        <button class="header-action" onclick="showPage('personalise')" title="My Account">
+                            <i class="fas fa-user"></i>
+                        </button>
+                        <button class="header-action" onclick="toggleWishlist()" title="Wishlist">
+                            <i class="fas fa-heart"></i>
+                            <span class="badge" id="wishlistCount">0</span>
+                        </button>
+                        <button class="header-action" onclick="toggleCart()" title="Shopping Cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge" id="cartCount">0</span>
+                        </button>
+                        <button class="header-action mobile-menu-btn" onclick="toggleMobileMenu()">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-content">
+                    <a href="#" class="nav-item active" onclick="showPage('home')">Home</a>
+                    <a href="#" class="nav-item" onclick="showPage('shop')">Shop</a>
+                    <a href="#" class="nav-item" onclick="showPage('diy')">DIY Tutorials</a>
+                    <a href="#" class="nav-item" onclick="showPage('community')">Community</a>
+                    <a href="#" class="nav-item" onclick="showPage('ar-designer')">AR Room Designer</a>
+                    <a href="#" class="nav-item" onclick="showPage('support')">Support</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <h1>Transform Your Space, Transform Your Life</h1>
+                            <p>Discover affordable, stylish home essentials perfect for your first home. Quality
+                                furniture and decor that won't break the bank.</p>
+                            <div class="hero-cta">
+                                <a href="#" class="btn btn-primary" onclick="showPage('shop')">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    Shop Now
+                                </a>
+                                <a href="#" class="btn btn-secondary" onclick="showPage('diy')">
+                                    <i class="fas fa-play"></i>
+                                    Watch DIY Tutorials
+                                </a>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop"
+                                alt="Beautiful Home Setup" class="hero-image">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features">
+                <div class="container">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <h3>Free Delivery</h3>
+                            <p>Free delivery across Lagos, Abuja, Port Harcourt and other major cities in Nigeria.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>Quality Guarantee</h3>
+                            <p>All products come with our quality guarantee. If you're not satisfied, we'll make it
+                                right.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>Easy Payment</h3>
+                            <p>Pay with Paystack, Flutterwave, bank transfer, USSD, or cash on delivery.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>Community Support</h3>
+                            <p>Join our community of home decorators. Get tips, share ideas, and get inspired.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Shop by Category</h2>
+                        <p class="section-subtitle">Find everything you need to make your house a home</p>
+                    </div>
+                    <div class="categories-grid">
+                        <div class="category-card" onclick="showCategory('living-room')">
+                            <div class="category-icon">
+                                <i class="fas fa-couch"></i>
+                            </div>
+                            <h3 class="category-name">Living Room</h3>
+                            <p class="category-count">120+ Products</p>
+                        </div>
+                        <div class="category-card" onclick="showCategory('kitchen')">
+                            <div class="category-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h3 class="category-name">Kitchen</h3>
+                            <p class="category-count">85+ Products</p>
+                        </div>
+                        <div class="category-card" onclick="showCategory('bedroom')">
+                            <div class="category-icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <h3 class="category-name">Bedroom</h3>
+                            <p class="category-count">95+ Products</p>
+                        </div>
+                        <div class="category-card" onclick="showCategory('home-office')">
+                            <div class="category-icon">
+                                <i class="fas fa-laptop-house"></i>
+                            </div>
+                            <h3 class="category-name">Home Office</h3>
+                            <p class="category-count">60+ Products</p>
+                        </div>
+                        <div class="category-card" onclick="showCategory('essentials')">
+                            <div class="category-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <h3 class="category-name">Home Essentials</h3>
+                            <p class="category-count">150+ Products</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Products -->
+            <section class="features" style="background: var(--bg-light);">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Featured Products</h2>
+                        <p class="section-subtitle">Hand-picked items perfect for your first home</p>
+                    </div>
+                    <div class="product-grid" id="featuredProducts">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Shop Page -->
+        <div id="shop" class="page">
+            <section style="padding: 40px 0; background: var(--bg-white);">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Shop All Products</h2>
+                        <p class="section-subtitle">Discover our full range of affordable home essentials</p>
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div style="display: flex; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; align-items: center;">
+                        <select id="categoryFilter" onchange="filterProducts()"
+                            style="padding: 10px 15px; border: 2px solid var(--border-color); border-radius: 8px;">
+                            <option value="">All Categories</option>
+                            <option value="living-room">Living Room</option>
+                            <option value="kitchen">Kitchen</option>
+                            <option value="bedroom">Bedroom</option>
+                            <option value="home-office">Home Office</option>
+                            <option value="essentials">Home Essentials</option>
+                        </select>
+                        <select id="priceFilter" onchange="filterProducts()"
+                            style="padding: 10px 15px; border: 2px solid var(--border-color); border-radius: 8px;">
+                            <option value="">All Prices</option>
+                            <option value="0-10000">Under ₦10,000</option>
+                            <option value="10000-25000">₦10,000 - ₦25,000</option>
+                            <option value="25000-50000">₦25,000 - ₦50,000</option>
+                            <option value="50000+">Above ₦50,000</option>
+                        </select>
+                        <select id="sortFilter" onchange="filterProducts()"
+                            style="padding: 10px 15px; border: 2px solid var(--border-color); border-radius: 8px;">
+                            <option value="name">Sort by Name</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Best Rated</option>
+                        </select>
+                    </div>
+
+                    <div class="product-grid" id="allProducts">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- DIY Tutorials Page -->
+<div id="diy" class="page">
+    <section style="padding: 40px 0; background: var(--bg-white);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">DIY Tutorials</h2>
+                <p class="section-subtitle">Learn to decorate and organize your space like a pro</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--gradient-secondary);">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Small Space Organization</h3>
+                    <p>Learn how to maximize storage in small Nigerian apartments with creative DIY solutions.</p>
+                    <a href="https://www.youtube.com/watch?v=Lp3Z8jJBzpI" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Watch Now</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--gradient-secondary);">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Budget Decorating Tips</h3>
+                    <p>Transform your space without breaking the bank. Nigerian-friendly decorating hacks.</p>
+                    <a href="https://www.realhomes.com/advice/decorating-on-a-budget" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Read Article</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--gradient-secondary);">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Basic Furniture Assembly</h3>
+                    <p>Step-by-step guides for assembling your new furniture safely and efficiently.</p>
+                    <a href="https://www.youtube.com/watch?v=kGZDRWCf1oA" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Watch Tutorial</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+        <!-- Community Page -->
+<div id="community" class="page">
+    <section style="padding: 40px 0; background: var(--bg-white);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">HomeVibe Community</h2>
+                <p class="section-subtitle">Connect, share, and get inspired by fellow home decorators</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Discussion Forums</h3>
+                    <p>Join conversations about home decorating, share tips, and get advice from the community.</p>
+                    <a href="https://www.reddit.com/r/HomeDecorating/" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Join Discussion</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Photo Gallery</h3>
+                    <p>Share photos of your decorated spaces and get inspired by others' beautiful homes.</p>
+                    <a href="https://www.pinterest.com/search/pins/?q=home%20decor%20inspiration" target="_blank" class="btn btn-primary" style="margin-top: 20px;">View Gallery</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Customer Stories</h3>
+                    <p>Read real stories from customers who transformed their homes with HomeVibe products.</p>
+                    <a href="https://www.houzz.com/ideabooks/home-design" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Read Stories</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+        <!-- AR Room Designer Page -->
+        <div id="ar-designer" class="page">
+            <section style="padding: 40px 0; background: var(--bg-white);">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">AR Room Designer</h2>
+                        <p class="section-subtitle">Visualize furniture in your space before you buy</p>
+                    </div>
+
+                    <div
+                        style="text-align: center; padding: 60px 20px; background: var(--bg-light); border-radius: 20px;">
+                        <div class="feature-icon" style="margin: 0 auto 30px; background: var(--gradient-secondary);">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 style="margin-bottom: 20px;">Coming Soon!</h3>
+                        <p style="margin-bottom: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                            Our AR Room Designer will let you place virtual furniture in your real space using your
+                            phone's camera.
+                            Sign up to be notified when it launches!
+                        </p>
+                        <div
+                            style="display: flex; gap: 10px; justify-content: center; max-width: 400px; margin: 0 auto;">
+                            <input type="email" placeholder="Enter your email" id="arEmailInput"
+                                style="flex: 1; padding: 15px; border: 2px solid var(--border-color); border-radius: 8px;">
+                            <button class="btn btn-primary" onclick="subscribeToAR()">Notify Me</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Personalise Page -->
+<div id="personalise" class="page">
+    <section style="padding: 40px 0; background: var(--bg-white);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Your Personal Space</h2>
+                <p class="section-subtitle">Customize your shopping experience</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>My Account</h3>
+                    <p>Manage your profile, orders, and preferences in one place.</p>
+                    <a href="#" class="btn btn-primary" style="margin-top: 20px;" onclick="showLogin()">Sign In</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>My Wishlist</h3>
+                    <p>Save your favorite items and get notified when they go on sale.</p>
+                    <a href="#" class="btn btn-primary" style="margin-top: 20px;" onclick="toggleWishlist()">View Wishlist</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>Style Quiz</h3>
+                    <p>Take our quick quiz to get personalized product recommendations.</p>
+                    <a href="#" class="btn btn-primary" style="margin-top: 20px;" onclick="startStyleQuiz()">Take Quiz</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Recommendations</h3>
+                    <p>Get smart product suggestions based on your preferences and browsing history.</p>
+                    <a href="#" class="btn btn-primary" style="margin-top: 20px;" onclick="showAIRecommendations()">View Recommendations</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Recommendations Modal -->
+    <div id="aiRecommendationsModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>AI Recommendations</h3>
+                <span class="close" onclick="closeAIRecommendations()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px;">Based on current trends and popular choices, here are some recommendations for you:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div class="recommendation-card" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="background: #f8f9fa; height: 150px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                            <i class="fas fa-couch" style="font-size: 3em; color: var(--primary);"></i>
+                        </div>
+                        <h4>Modern Sofas</h4>
+                        <p style="font-size: 0.9em; color: #666;">Comfortable and stylish seating options</p>
+                        <button class="btn btn-primary btn-sm" onclick="showToast('Added to recommendations!', 'success')">View Details</button>
+                    </div>
+                    
+                    <div class="recommendation-card" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="background: #f8f9fa; height: 150px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                            <i class="fas fa-lightbulb" style="font-size: 3em; color: var(--primary);"></i>
+                        </div>
+                        <h4>LED Lighting</h4>
+                        <p style="font-size: 0.9em; color: #666;">Energy-efficient ambient lighting</p>
+                        <button class="btn btn-primary btn-sm" onclick="showToast('Added to recommendations!', 'success')">View Details</button>
+                    </div>
+                    
+                    <div class="recommendation-card" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="background: #f8f9fa; height: 150px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                            <i class="fas fa-leaf" style="font-size: 3em; color: var(--primary);"></i>
+                        </div>
+                        <h4>Indoor Plants</h4>
+                        <p style="font-size: 0.9em; color: #666;">Bring nature into your home</p>
+                        <button class="btn btn-primary btn-sm" onclick="showToast('Added to recommendations!', 'success')">View Details</button>
+                    </div>
+                    
+                    <div class="recommendation-card" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; text-align: center;">
+                        <div style="background: #f8f9fa; height: 150px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                            <i class="fas fa-mirror" style="font-size: 3em; color: var(--primary);"></i>
+                        </div>
+                        <h4>Wall Mirrors</h4>
+                        <p style="font-size: 0.9em; color: #666;">Create illusion of space and light</p>
+                        <button class="btn btn-primary btn-sm" onclick="showToast('Added to recommendations!', 'success')">View Details</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                    <h4 style="margin-bottom: 10px;">💡 Pro Tip</h4>
+                    <p style="margin: 0; font-size: 0.9em;">Mix textures and colors to create visual interest. Consider your room's natural light when choosing colors!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showAIRecommendations() {
+    document.getElementById('aiRecommendationsModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAIRecommendations() {
+    document.getElementById('aiRecommendationsModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside of it
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('aiRecommendationsModal');
+    if (event.target === modal) {
+        closeAIRecommendations();
+    }
+});
+</script>
+
+<style>
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 12px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    padding: 20px 30px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--primary);
+}
+
+.close {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: var(--primary);
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.85em;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .modal-header, .modal-body {
+        padding: 20px;
+    }
+}
+</style>
+        <!-- Support Page -->
+        <div id="support" class="page">
+            <section style="padding: 40px 0; background: var(--bg-white);">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Customer Support</h2>
+                        <p class="section-subtitle">We're here to help you every step of the way</p>
+                    </div>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>Chat with AI Assistant</h3>
+                            <p>Get instant answers to common questions about products, orders, and delivery.</p>
+                            <a href="#" class="btn btn-primary" style="margin-top: 20px;" onclick="openChatbot()">Start
+                                Chat</a>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon" style="background: #25d366;">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <h3>WhatsApp Support</h3>
+                            <p>Chat with our support team directly on WhatsApp for personalized assistance.</p>
+                            <a href="https://wa.me/2348123456789" class="btn btn-primary"
+                                style="margin-top: 20px; background: #25d366;" target="_blank">Chat on WhatsApp</a>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <h3>FAQ</h3>
+                            <p>Find quick answers to frequently asked questions about our products and services.</p>
+                            <a href="#" class="btn btn-primary" style="margin-top: 20px;" onclick="showFAQ()">View
+                                FAQ</a>
+                        </div>
+                    </div>
+
+                    <!-- Order Tracking -->
+                    <div style="background: var(--bg-light); padding: 40px; border-radius: 20px;">
+                        <h3 style="text-align: center; margin-bottom: 30px;">Track Your Order</h3>
+                        <div style="display: flex; gap: 15px; max-width: 500px; margin: 0 auto;">
+                            <input type="text" id="trackingInput" placeholder="Enter your order number"
+                                style="flex: 1; padding: 15px; border: 2px solid var(--border-color); border-radius: 8px; font-size: 16px;">
+                            <button class="btn btn-primary" onclick="trackOrder()">Track Order</button>
+                        </div>
+                        <div id="trackingResult" style="margin-top: 20px; text-align: center;"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div style="text-align: center; padding: 40px 20px; color: var(--text-gray);">
+                <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
+                <p>Your cart is empty</p>
+                <p style="font-size: 14px; margin-top: 10px;">Add some products to get started!</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">₦0</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="goToCheckout()">
+                <i class="fas fa-lock"></i>
+                Secure Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div class="modal" id="wishlistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>My Wishlist</h3>
+                <button class="modal-close" onclick="closeModal('wishlistModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="wishlistItems">
+                <div style="text-align: center; padding: 40px 20px; color: var(--text-gray);">
+                    <i class="fas fa-heart" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
+                    <p>Your wishlist is empty</p>
+                    <p style="font-size: 14px; margin-top: 10px;">Add some products to your wishlist!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#" onclick="showCategory('living-room')">Living Room</a></li>
+                        <li><a href="#" onclick="showCategory('kitchen')">Kitchen</a></li>
+                        <li><a href="#" onclick="showCategory('bedroom')">Bedroom</a></li>
+                        <li><a href="#" onclick="showCategory('home-office')">Home Office</a></li>
+                        <li><a href="#" onclick="showCategory('essentials')">Home Essentials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Care</h4>
+                    <ul>
+                        <li><a href="#" onclick="showPage('support')">Contact Us</a></li>
+                        <li><a href="#" onclick="showFAQ()">FAQ</a></li>
+                        <li><a href="#" onclick="showToast('Returns page coming soon!', 'info')">Returns & Refunds</a></li>
+                        <li><a href="#" onclick="showToast('Shipping info coming soon!', 'info')">Shipping Info</a></li>
+                        <li><a href="#" onclick="showToast('Click & Collect coming soon!', 'info')">Click & Collect</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="#" onclick="showToast('About page coming soon!', 'info')">About HomeVibe</a></li>
+                        <li><a href="#" onclick="showPage('community')">Community</a></li>
+                        <li><a href="#" onclick="showPage('diy')">DIY Tutorials</a></li>
+                        <li><a href="#" onclick="showToast('Careers page coming soon!', 'info')">Careers</a></li>
+                        <li><a href="#" onclick="showToast('Press page coming soon!', 'info')">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Payment Methods</h4>
+                    <div class="payment-methods">
+                        <div class="payment-method">Paystack</div>
+                        <div class="payment-method">Flutterwave</div>
+                        <div class="payment-method">Card</div>
+                        <div class="payment-method">USSD</div>
+                        <div class="payment-method">Bank Transfer</div>
+                        <div class="payment-method">Cash on Delivery</div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 HomeVibe. All rights reserved. | <a href="#" onclick="showToast('Privacy policy coming soon!', 'info')">Privacy Policy</a> | <a href="#" onclick="showToast('Terms coming soon!', 'info')">Terms of
+                        Service</a> | <a href="#" onclick="showToast('Accessibility page coming soon!', 'info')">Accessibility</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/2348034015709" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Toast Notifications -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Application State
+        let appState = {
+            currentPage: 'home',
+            cart: [],
+            wishlist: [],
+            products: [],
+            filteredProducts: [],
+            user: null,
+            cartTotal: 0
+        };
+
+        // Sample Products Data
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Modern 3-Seater Sofa",
+                price: 45000,
+                category: "living-room",
+                image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=200&fit=crop",
+                rating: 4.5,
+                reviews: 28,
+                description: "Comfortable and stylish sofa perfect for your living room"
+            },
+            {
+                id: 2,
+                name: "Coffee Table Set",
+                price: 15000,
+                category: "living-room",
+                image: "https://images.unsplash.com/photo-1449247709967-d4461a6a103?w=300&h=200&fit=crop",
+                rating: 4.2,
+                reviews: 15,
+                description: "Elegant coffee table with matching side tables"
+            },
+            {
+                id: 3,
+                name: "Queen Size Bed Frame",
+                price: 35000,
+                category: "bedroom",
+                image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=300&h=200&fit=crop",
+                rating: 4.7,
+                reviews: 42,
+                description: "Sturdy wooden bed frame with modern design"
+            },
+            {
+                id: 4,
+                name: "Office Chair",
+                price: 12000,
+                category: "home-office",
+                image: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=300&h=200&fit=crop",
+                rating: 4.3,
+                reviews: 33,
+                description: "Ergonomic office chair for comfortable working"
+            },
+            {
+                id: 5,
+                name: "Table Lamp",
+                price: 5500,
+                category: "living-room",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop",
+                rating: 4.1,
+                reviews: 19,
+                description: "Modern table lamp with adjustable brightness"
+            },
+            {
+                id: 6,
+                name: "Cookware Set",
+                price: 8000,
+                category: "kitchen",
+                image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=200&fit=crop",
+                rating: 4.6,
+                reviews: 51,
+                description: "Complete non-stick cookware set for your kitchen"
+            },
+            {
+                id: 7,
+                name: "Wardrobe",
+                price: 55000,
+                category: "bedroom",
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop",
+                rating: 4.4,
+                reviews: 22,
+                description: "Spacious wardrobe with multiple compartments"
+            },
+            {
+                id: 8,
+                name: "Dining Table",
+                price: 28000,
+                category: "kitchen",
+                image: "https://images.unsplash.com/photo-1449247709967-d4461a6a103?w=300&h=200&fit=crop",
+                rating: 4.5,
+                reviews: 37,
+                description: "4-seater dining table perfect for families"
+            },
+            {
+                id: 9,
+                name: "Reading Chair",
+                price: 18000,
+                category: "living-room",
+                image: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=300&h=200&fit=crop",
+                rating: 4.3,
+                reviews: 29,
+                description: "Comfortable reading chair for your living space"
+            },
+            {
+                id: 10,
+                name: "Kitchen Storage Set",
+                price: 6500,
+                category: "kitchen",
+                image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=200&fit=crop",
+                rating: 4.4,
+                reviews: 18,
+                description: "Organized storage containers for your kitchen"
+            }
+        ];
+
+        // Initialize App
+        function initApp() {
+            appState.products = sampleProducts;
+            appState.filteredProducts = [...sampleProducts];
+            loadFeaturedProducts();
+            loadAllProducts();
+            updateCartUI();
+            updateWishlistUI();
+            
+            // Add search functionality
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+        }
+
+        // Navigation Functions
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                appState.currentPage = pageId;
+            }
+
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Find and activate the corresponding nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(pageId)) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Close mobile menu if open
+            closeMobileMenu();
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showCategory(category) {
+            showPage('shop');
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter) {
+                categoryFilter.value = category;
+                filterProducts();
+            }
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const nav = document.querySelector('.nav');
+            if (nav) {
+                nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        function closeMobileMenu() {
+            const nav = document.querySelector('.nav');
+            if (nav && window.innerWidth <= 768) {
+                nav.style.display = 'none';
+            }
+        }
+
+        // Product Functions
+        function loadFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+            if (!container) return;
+            
+            const featuredProducts = appState.products.slice(0, 6);
+            container.innerHTML = featuredProducts.map(product => createProductCard(product)).join('');
+        }
+
+        function loadAllProducts() {
+            const container = document.getElementById('allProducts');
+            if (!container) return;
+            
+            container.innerHTML = appState.filteredProducts.map(product => createProductCard(product)).join('');
+        }
+
+        function createProductCard(product) {
+            const isInWishlist = appState.wishlist.some(item => item.id === product.id);
+            return `
+                <div class="product-card">
+                    <button class="wishlist-btn ${isInWishlist ? 'active' : ''}" onclick="toggleWishlistItem(${product.id})">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200/f8f9fa/666?text=Product+Image'">
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-price">₦${product.price.toLocaleString()}</div>
+                        <div class="product-rating">
+                            <div class="stars">
+                                ${generateStars(product.rating)}
+                            </div>
+                            <span class="rating-text">(${product.reviews} reviews)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-small" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i>
+                                Add to Cart
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="quickView(${product.id})">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+
+            return stars;
+        }
+
+        // Search and Filter Functions
+        function performSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (!searchInput) return;
+            
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                showToast('Please enter a search term', 'error');
+                return;
+            }
+
+            // Filter products based on search term
+            const filteredProducts = appState.products.filter(product =>
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredProducts.length === 0) {
+                showToast(`No products found for "${searchTerm}"`, 'error');
+                return;
+            }
+
+            // Show shop page with filtered results
+            appState.filteredProducts = filteredProducts;
+            showPage('shop');
+            loadAllProducts();
+            showToast(`Found ${filteredProducts.length} products for "${searchTerm}"`, 'success');
+        }
+
+        function filterProducts() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priceFilter = document.getElementById('priceFilter');
+            const sortFilter = document.getElementById('sortFilter');
+
+            if (!categoryFilter || !priceFilter || !sortFilter) return;
+
+            let filtered = [...appState.products];
+
+            // Category filter
+            const selectedCategory = categoryFilter.value;
+            if (selectedCategory) {
+                filtered = filtered.filter(product => product.category === selectedCategory);
+            }
+
+            // Price filter
+            const selectedPrice = priceFilter.value;
+            if (selectedPrice) {
+                const [min, max] = selectedPrice.includes('+') 
+                    ? [parseInt(selectedPrice.replace('+', '')), Infinity]
+                    : selectedPrice.split('-').map(p => parseInt(p));
+                
+                filtered = filtered.filter(product => 
+                    product.price >= min && product.price <= max
+                );
+            }
+
+            // Sort
+            const selectedSort = sortFilter.value;
+            switch (selectedSort) {
+                case 'price-low':
+                    filtered.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filtered.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    filtered.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'name':
+                default:
+                    filtered.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+            }
+
+            appState.filteredProducts = filtered;
+            loadAllProducts();
+        }
+
+        // Cart Functions
+        function addToCart(productId) {
+            const product = appState.products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = appState.cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                appState.cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`${product.name} added to cart`, 'success');
+        }
+
+        function removeFromCart(productId) {
+            appState.cart = appState.cart.filter(item => item.id !== productId);
+            updateCartUI();
+            showToast('Item removed from cart', 'success');
+        }
+
+        function updateCartQuantity(productId, newQuantity) {
+            const item = appState.cart.find(item => item.id === productId);
+            if (item && newQuantity > 0) {
+                item.quantity = newQuantity;
+                updateCartUI();
+            } else if (item && newQuantity <= 0) {
+                removeFromCart(productId);
+            }
+        }
+
+        function updateCartUI() {
+            const cartCount = appState.cart.reduce((total, item) => total + item.quantity, 0);
+            const cartTotal = appState.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            
+            const cartCountElement = document.getElementById('cartCount');
+            const cartTotalElement = document.getElementById('cartTotal');
+            const cartItemsElement = document.getElementById('cartItems');
+
+            if (cartCountElement) {
+                cartCountElement.textContent = cartCount;
+            }
+
+            if (cartTotalElement) {
+                cartTotalElement.textContent = `₦${cartTotal.toLocaleString()}`;
+            }
+
+            if (cartItemsElement) {
+                if (appState.cart.length === 0) {
+                    cartItemsElement.innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px; color: var(--text-gray);">
+                            <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
+                            <p>Your cart is empty</p>
+                            <p style="font-size: 14px; margin-top: 10px;">Add some products to get started!</p>
+                        </div>
+                    `;
+                } else {
+                    cartItemsElement.innerHTML = appState.cart.map(item => `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/60x60/f8f9fa/666?text=IMG'">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">₦${(item.price * item.quantity).toLocaleString()}</div>
+                                <div class="cart-item-controls">
+                                    <button class="qty-btn" onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span style="margin: 0 10px; font-weight: 600;">${item.quantity}</span>
+                                    <button class="qty-btn" onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="qty-btn" onclick="removeFromCart(${item.id})" style="background: #ff4757; color: white; margin-left: 10px;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            appState.cartTotal = cartTotal;
+        }
+
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('overlay');
+            
+            if (cartSidebar && overlay) {
+                cartSidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            }
+        }
+
+      function goToCheckout() {
+    // Ensure checkout page exists
+    let checkoutPage = document.getElementById('checkoutPage');
+    if (!checkoutPage) {
+        checkoutPage = document.createElement('div');
+        checkoutPage.id = 'checkoutPage';
+        checkoutPage.style.padding = '2rem';
+        document.body.appendChild(checkoutPage);
+    }
+
+    // Clear previous content
+    checkoutPage.innerHTML = '';
+
+    // Check if cart is empty
+    if (!appState.cart || appState.cart.length === 0) {
+        showToast('🚫 Your cart is empty. Please add items before checking out.', 'error');
+        return;
+    }
+
+    // Create title
+    const title = document.createElement('h2');
+    title.textContent = '🛒 Checkout';
+    checkoutPage.appendChild(title);
+
+    // Create cart item list
+    const list = document.createElement('ul');
+    list.style.listStyle = 'none';
+    list.style.padding = '0';
+
+    appState.cart.forEach(item => {
+        const li = document.createElement('li');
+        li.style.marginBottom = '10px';
+        li.innerHTML = `<strong>${item.name}</strong> × ${item.quantity} — ₦${(item.price * item.quantity).toLocaleString()}`;
+        list.appendChild(li);
+    });
+
+    checkoutPage.appendChild(list);
+
+    // Add back button
+    const backBtn = document.createElement('button');
+    backBtn.textContent = '⬅ Back to Shop';
+    backBtn.className = 'btn btn-secondary';
+    backBtn.onclick = () => {
+        checkoutPage.style.display = 'none';
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.style.display = 'block');
+    };
+
+    checkoutPage.appendChild(backBtn);
+
+    // Hide all other pages
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.style.display = 'none');
+
+    // Show checkout page
+    checkoutPage.style.display = 'block';
+
+    // Show toast
+    showToast('✅ Cart ready. Proceed to confirm order.', 'success');
+}
+
+
+
+        // Wishlist Functions
+        function toggleWishlistItem(productId) {
+            const product = appState.products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingIndex = appState.wishlist.findIndex(item => item.id === productId);
+            if (existingIndex >= 0) {
+                appState.wishlist.splice(existingIndex, 1);
+                showToast(`${product.name} removed from wishlist`, 'success');
+            } else {
+                appState.wishlist.push(product);
+                showToast(`${product.name} added to wishlist`, 'success');
+            }
+
+            updateWishlistUI();
+            // Update product cards
+            loadFeaturedProducts();
+            loadAllProducts();
+        }
+
+        function updateWishlistUI() {
+            const wishlistCountElement = document.getElementById('wishlistCount');
+            const wishlistItemsElement = document.getElementById('wishlistItems');
+
+            if (wishlistCountElement) {
+                wishlistCountElement.textContent = appState.wishlist.length;
+            }
+
+            if (wishlistItemsElement) {
+                if (appState.wishlist.length === 0) {
+                    wishlistItemsElement.innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px; color: var(--text-gray);">
+                            <i class="fas fa-heart" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
+                            <p>Your wishlist is empty</p>
+                            <p style="font-size: 14px; margin-top: 10px;">Add some products to your wishlist!</p>
+                        </div>
+                    `;
+                } else {
+                    wishlistItemsElement.innerHTML = appState.wishlist.map(item => `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/60x60/f8f9fa/666?text=IMG'">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
+                                <div class="cart-item-controls" style="margin-top: 15px;">
+                                    <button class="btn btn-primary btn-small" onclick="addToCart(${item.id})" style="margin-right: 10px;">
+                                        <i class="fas fa-cart-plus"></i>
+                                        Add to Cart
+                                    </button>
+                                    <button class="qty-btn" onclick="toggleWishlistItem(${item.id})" style="background: #ff4757; color: white;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        function toggleWishlist() {
+            const wishlistModal = document.getElementById('wishlistModal');
+            const overlay = document.getElementById('overlay');
+            
+            if (wishlistModal && overlay) {
+                wishlistModal.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        // Modal Functions
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const overlay = document.getElementById('overlay');
+            
+            if (modal && overlay) {
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
+            document.querySelectorAll('.cart-sidebar').forEach(sidebar => {
+                sidebar.classList.remove('active');
+            });
+            const overlay = document.getElementById('overlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+        }
+
+        // Other Functions
+        function quickView(productId) {
+            const product = appState.products.find(p => p.id === productId);
+            if (product) {
+                showToast(`Viewing ${product.name} - Quick view feature coming soon!`, 'info');
+            }
+        }
+
+        // Replace your existing functions with these improved versions
+
+function showLogin() {
+    // Create login modal HTML
+    const loginModal = `
+        <div id="loginModal" class="modal" style="display: block;">
+            <div class="modal-content" style="max-width: 400px;">
+                <div class="modal-header">
+                    <h3>Sign In to HomeVibe</h3>
+                    <span class="close" onclick="closeLoginModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" onsubmit="handleLogin(event)">
+                        <div style="margin-bottom: 20px;">
+                            <label for="email" style="display: block; margin-bottom: 5px; font-weight: 500;">Email Address</label>
+                            <input type="email" id="email" name="email" required 
+                                   style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label for="password" style="display: block; margin-bottom: 5px; font-weight: 500;">Password</label>
+                            <input type="password" id="password" name="password" required 
+                                   style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: flex; align-items: center; font-size: 14px;">
+                                <input type="checkbox" style="margin-right: 8px;"> Remember me
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 15px;">
+                            Sign In
+                        </button>
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <a href="#" onclick="showToast('Password reset link sent to your email!', 'info')" 
+                               style="color: var(--primary); text-decoration: none; font-size: 14px;">
+                               Forgot your password?
+                            </a>
+                        </div>
+                        <hr style="margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <p style="margin-bottom: 15px; color: #666; font-size: 14px;">Don't have an account?</p>
+                            <button type="button" class="btn btn-outline" onclick="showSignup()" style="width: 100%;">
+                                Create Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to page
+    document.body.insertAdjacentHTML('beforeend', loginModal);
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoginModal() {
+    const modal = document.getElementById('loginModal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    // Simulate login process
+    showToast('Signing you in...', 'info');
+    
+    setTimeout(() => {
+        showToast(`Welcome back! Logged in as ${email}`, 'success');
+        closeLoginModal();
+        // You can add actual login logic here
+    }, 1500);
+}
+
+function showSignup() {
+    closeLoginModal();
+    showToast('Sign up feature will be available soon! For now, you can browse as a guest.', 'info');
+}
+
+function startStyleQuiz() {
+    // Create style quiz modal
+    const quizModal = `
+        <div id="styleQuizModal" class="modal" style="display: block;">
+            <div class="modal-content" style="max-width: 600px;">
+                <div class="modal-header">
+                    <h3>Discover Your Style</h3>
+                    <span class="close" onclick="closeStyleQuiz()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div id="quizContent">
+                        <div id="question1" class="quiz-question">
+                            <h4>What's your ideal living room vibe?</h4>
+                            <div class="quiz-options">
+                                <button class="quiz-option" onclick="selectOption('modern', 1)">
+                                    <i class="fas fa-cube"></i> Modern & Minimalist
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('cozy', 1)">
+                                    <i class="fas fa-home"></i> Cozy & Traditional
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('bohemian', 1)">
+                                    <i class="fas fa-feather"></i> Bohemian & Eclectic
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('industrial', 1)">
+                                    <i class="fas fa-cog"></i> Industrial & Urban
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="question2" class="quiz-question" style="display: none;">
+                            <h4>What colors make you feel most at home?</h4>
+                            <div class="quiz-options">
+                                <button class="quiz-option" onclick="selectOption('neutral', 2)">
+                                    <i class="fas fa-circle" style="color: #f5f5f5;"></i> Neutral & Calm
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('bold', 2)">
+                                    <i class="fas fa-circle" style="color: #ff6b6b;"></i> Bold & Vibrant
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('earth', 2)">
+                                    <i class="fas fa-circle" style="color: #8b4513;"></i> Earth Tones
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('pastel', 2)">
+                                    <i class="fas fa-circle" style="color: #ffb3ba;"></i> Soft Pastels
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="question3" class="quiz-question" style="display: none;">
+                            <h4>How do you like to spend time at home?</h4>
+                            <div class="quiz-options">
+                                <button class="quiz-option" onclick="selectOption('entertaining', 3)">
+                                    <i class="fas fa-users"></i> Entertaining Friends
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('relaxing', 3)">
+                                    <i class="fas fa-bed"></i> Quiet Relaxation
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('working', 3)">
+                                    <i class="fas fa-laptop"></i> Working from Home
+                                </button>
+                                <button class="quiz-option" onclick="selectOption('family', 3)">
+                                    <i class="fas fa-heart"></i> Family Time
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="quizResults" style="display: none; text-align: center;">
+                            <div id="resultContent"></div>
+                            <button class="btn btn-primary" onclick="closeStyleQuiz()" style="margin-top: 20px;">
+                                Start Shopping
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', quizModal);
+    document.body.style.overflow = 'hidden';
+}
+
+let quizAnswers = {};
+let currentQuestion = 1;
+
+function selectOption(answer, questionNumber) {
+    quizAnswers[`q${questionNumber}`] = answer;
+    
+    if (questionNumber < 3) {
+        document.getElementById(`question${questionNumber}`).style.display = 'none';
+        document.getElementById(`question${questionNumber + 1}`).style.display = 'block';
+        currentQuestion++;
+    } else {
+        showQuizResults();
+    }
+}
+
+function showQuizResults() {
+    document.getElementById('question3').style.display = 'none';
+    
+    // Simple logic to determine style
+    let style = "Modern Minimalist";
+    let description = "Clean lines, neutral colors, and functional furniture";
+    let recommendations = ["Sleek sofas", "Geometric lighting", "Minimalist decor"];
+    
+    if (quizAnswers.q1 === 'cozy') {
+        style = "Cozy Traditional";
+        description = "Warm textures, rich colors, and comfortable furnishings";
+        recommendations = ["Plush armchairs", "Warm lighting", "Soft textiles"];
+    } else if (quizAnswers.q1 === 'bohemian') {
+        style = "Bohemian Chic";
+        description = "Eclectic mix, vibrant patterns, and global influences";
+        recommendations = ["Patterned rugs", "Floor cushions", "Plant collections"];
+    } else if (quizAnswers.q1 === 'industrial') {
+        style = "Industrial Urban";
+        description = "Raw materials, metal accents, and urban aesthetics";
+        recommendations = ["Metal furniture", "Edison bulb lighting", "Exposed shelving"];
+    }
+    
+    const resultHTML = `
+        <h3>Your Style: ${style}</h3>
+        <p style="margin: 20px 0; color: #666;">${description}</p>
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h4>Recommended for you:</h4>
+            <ul style="text-align: left; margin: 10px 0;">
+                ${recommendations.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+        </div>
+    `;
+    
+    document.getElementById('resultContent').innerHTML = resultHTML;
+    document.getElementById('quizResults').style.display = 'block';
+}
+
+function closeStyleQuiz() {
+    const modal = document.getElementById('styleQuizModal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto';
+    }
+    quizAnswers = {};
+    currentQuestion = 1;
+}
+
+function openChatbot() {
+    // Create chatbot interface
+    const chatbotModal = `
+        <div id="chatbotModal" class="modal" style="display: block;">
+            <div class="modal-content" style="max-width: 500px; height: 600px; display: flex; flex-direction: column;">
+                <div class="modal-header">
+                    <h3>HomeVibe Assistant</h3>
+                    <span class="close" onclick="closeChatbot()">&times;</span>
+                </div>
+                <div class="modal-body" style="flex: 1; display: flex; flex-direction: column;">
+                    <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 10px; background: #f8f9fa; border-radius: 8px; margin-bottom: 15px;">
+                        <div class="chat-message bot-message">
+                            <strong>HomeVibe Assistant:</strong><br>
+                            Hi! I'm here to help you find the perfect items for your home. What are you looking for today?
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="chatInput" placeholder="Ask me anything about home decor..." 
+                               style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"
+                               onkeypress="if(event.key==='Enter') sendChatMessage()">
+                        <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <small style="color: #666;">Quick suggestions:</small>
+                        <div style="margin-top: 5px;">
+                            <button class="btn btn-outline btn-sm" onclick="sendQuickMessage('What are your best-selling items?')" style="margin: 2px; font-size: 12px;">Best sellers</button>
+                            <button class="btn btn-outline btn-sm" onclick="sendQuickMessage('I need help decorating a small living room')" style="margin: 2px; font-size: 12px;">Small space tips</button>
+                            <button class="btn btn-outline btn-sm" onclick="sendQuickMessage('What is your return policy?')" style="margin: 2px; font-size: 12px;">Return policy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', chatbotModal);
+    document.body.style.overflow = 'hidden';
+}
+
+function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (message) {
+        addChatMessage(message, 'user');
+        input.value = '';
+        
+        // Simulate bot response
+        setTimeout(() => {
+            const response = getBotResponse(message);
+            addChatMessage(response, 'bot');
+        }, 1000);
+    }
+}
+
+function sendQuickMessage(message) {
+    addChatMessage(message, 'user');
+    setTimeout(() => {
+        const response = getBotResponse(message);
+        addChatMessage(response, 'bot');
+    }, 1000);
+}
+
+function addChatMessage(message, sender) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${sender}-message`;
+    
+    if (sender === 'user') {
+        messageDiv.innerHTML = `<strong>You:</strong><br>${message}`;
+        messageDiv.style.textAlign = 'right';
+        messageDiv.style.backgroundColor = '#e3f2fd';
+    } else {
+        messageDiv.innerHTML = `<strong>HomeVibe Assistant:</strong><br>${message}`;
+        messageDiv.style.backgroundColor = '#f1f8e9';
+    }
+    
+    messageDiv.style.margin = '10px 0';
+    messageDiv.style.padding = '10px';
+    messageDiv.style.borderRadius = '8px';
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function getBotResponse(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    if (lowerMessage.includes('best') || lowerMessage.includes('popular')) {
+        return "Our best-selling items include modern sofas, LED lighting fixtures, and indoor plants. Would you like me to show you any specific category?";
+    } else if (lowerMessage.includes('small') || lowerMessage.includes('space')) {
+        return "For small spaces, I recommend multi-functional furniture, mirrors to create illusion of space, and vertical storage solutions. Light colors also help make rooms feel larger!";
+    } else if (lowerMessage.includes('return') || lowerMessage.includes('policy')) {
+        return "We offer a 30-day return policy for all items in original condition. Free returns for orders over ₦50,000. Would you like more details about our return process?";
+    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+        return "Our prices range from ₦5,000 for small decor items to ₦500,000 for premium furniture. We also offer flexible payment plans. What's your budget range?";
+    } else if (lowerMessage.includes('delivery') || lowerMessage.includes('shipping')) {
+        return "We deliver nationwide! Lagos delivery is 1-2 days, other states 3-5 days. Free delivery on orders over ₦100,000. Where would you like us to deliver?";
+    } else {
+        return "That's a great question! For detailed information, I recommend browsing our product categories or contacting our customer service team. Is there anything specific about home decor I can help you with?";
+    }
+}
+
+function closeChatbot() {
+    const modal = document.getElementById('chatbotModal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function showFAQ() {
+    // Create FAQ modal
+    const faqModal = `
+        <div id="faqModal" class="modal" style="display: block;">
+            <div class="modal-content" style="max-width: 700px;">
+                <div class="modal-header">
+                    <h3>Frequently Asked Questions</h3>
+                    <span class="close" onclick="closeFAQ()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="faq-container">
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(1)">
+                                <span>How long does delivery take?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" id="faq1">
+                                <p>Delivery times vary by location:</p>
+                                <ul>
+                                    <li>Lagos: 1-2 business days</li>
+                                    <li>Major cities (Abuja, Port Harcourt, Kano): 2-3 business days</li>
+                                    <li>Other locations: 3-5 business days</li>
+                                </ul>
+                                <p>Free delivery on orders over ₦100,000!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(2)">
+                                <span>What is your return policy?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" id="faq2">
+                                <p>We offer a 30-day return policy for items in original condition. Returns are free for orders over ₦50,000. Items must be unopened and include all original packaging.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(3)">
+                                <span>Do you offer installation services?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" id="faq3">
+                                <p>Yes! We offer professional installation for furniture and fixtures. Installation fees vary by item complexity. Contact us for a quote when placing your order.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(4)">
+                                <span>What payment methods do you accept?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" id="faq4">
+                                <p>We accept:</p>
+                                <ul>
+                                    <li>Bank transfers</li>
+                                    <li>Debit/Credit cards</li>
+                                    <li>Mobile money (Opay, PalmPay, etc.)</li>
+                                    <li>Installment payments (3-12 months)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(5)">
+                                <span>Can I track my order?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" id="faq5">
+                                <p>Absolutely! Once your order ships, you'll receive a tracking number via SMS and email. You can also check your order status in your account dashboard.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(6)">
+                                <span>Do you have a physical store?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer" id="faq6">
+                                <p>We're primarily online, but we have a showroom in Lagos where you can view select items. Visit us at: 123 Ikeja GRA, Lagos. Open Monday-Saturday, 9AM-6PM.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: center;">
+                        <h4>Still have questions?</h4>
+                        <p>Contact us at <strong>support@homevibe.ng</strong> or call <strong>0800-HOME-VIBE</strong></p>
+                        <button class="btn btn-primary" onclick="openChatbot(); closeFAQ();">Chat with us</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', faqModal);
+    document.body.style.overflow = 'hidden';
+}
+
+function toggleFAQ(number) {
+    const answer = document.getElementById(`faq${number}`);
+    const question = answer.previousElementSibling;
+    const icon = question.querySelector('i');
+    
+    if (answer.style.display === 'block') {
+        answer.style.display = 'none';
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+    } else {
+        // Close all other FAQs
+        document.querySelectorAll('.faq-answer').forEach(item => {
+            item.style.display = 'none';
+        });
+        document.querySelectorAll('.faq-question i').forEach(icon => {
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        });
+        
+        // Open selected FAQ
+        answer.style.display = 'block';
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+    }
+}
+
+function closeFAQ() {
+    const modal = document.getElementById('faqModal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Add CSS styles for the new elements
+const additionalStyles = `
+<style>
+.quiz-question h4 {
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.quiz-option {
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    font-size: 14px;
+}
+
+.quiz-option:hover {
+    border-color: var(--primary);
+    background: #f8f9ff;
+}
+
+.quiz-option i {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+.chat-message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.faq-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.faq-question:hover {
+    background: #f8f9fa;
+}
+
+.faq-answer {
+    display: none;
+    padding: 0 15px 15px 15px;
+    color: #666;
+}
+
+.faq-answer ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary);
+    color: white;
+}
+</style>
+`;
+
+// Add the styles to the document
+document.head.insertAdjacentHTML('beforeend', additionalStyles);
+
+        function trackOrder() {
+            const trackingInput = document.getElementById('trackingInput');
+            const trackingResult = document.getElementById('trackingResult');
+            
+            if (trackingInput && trackingResult) {
+                const orderNumber = trackingInput.value.trim();
+                if (!orderNumber) {
+                    showToast('Please enter an order number', 'error');
+                    return;
+                }
+                
+                trackingResult.innerHTML = `
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <h4>Order #${orderNumber}</h4>
+                        <p style="color: var(--success-color); margin: 10px 0;">Status: Order Confirmed</p>
+                        <p style="font-size: 14px; color: var(--text-gray);">Your order is being processed and will be shipped soon!</p>
+                    </div>
+                `;
+            }
+        }
+
+        function subscribeToAR() {
+            const emailInput = document.getElementById('arEmailInput');
+            if (emailInput) {
+                const email = emailInput.value.trim();
+                if (!email) {
+                    showToast('Please enter your email address', 'error');
+                    return;
+                }
+                if (!email.includes('@')) {
+                    showToast('Please enter a valid email address', 'error');
+                    return;
+                }
+                emailInput.value = '';
+                showToast('Thank you! We\'ll notify you when AR Room Designer launches.', 'success');
+            }
+        }
+
+        // Toast Notification System
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize the app when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            
+            // Add click event listeners for navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const onclick = this.getAttribute('onclick');
+                    if (onclick) {
+                        eval(onclick);
+                    }
+                });
+            });
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const nav = document.querySelector('.nav');
+                if (nav) {
+                    nav.style.display = '';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
