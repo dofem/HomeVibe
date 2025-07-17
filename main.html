@@ -2346,230 +2346,385 @@ window.addEventListener('click', function(event) {
             }
         }
 
-     function goToCheckout() {
-    // Ensure checkout page exists
-    let checkoutPage = document.getElementById('checkoutPage');
-    if (!checkoutPage) {
-        checkoutPage = document.createElement('div');
-        checkoutPage.id = 'checkoutPage';
-        checkoutPage.style.padding = '2rem';
-        document.body.appendChild(checkoutPage);
-    }
+// Assuming appState, showToast, and updateCartDisplay are defined elsewhere in your code
 
-    // Clear previous content
-    checkoutPage.innerHTML = '';
-
-    // Check if cart is empty
+window.goToCheckout = function() {
     if (!appState.cart || appState.cart.length === 0) {
         showToast('🚫 Your cart is empty. Please add items before checking out.', 'error');
         return;
     }
 
-    // Create title
-    const title = document.createElement('h2');
-    title.textContent = '🛒 Checkout';
-    checkoutPage.appendChild(title);
-
-    // Create cart item list
-    const list = document.createElement('ul');
-    list.style.listStyle = 'none';
-    list.style.padding = '0';
+    // Remove any existing checkout modal before creating a new one
+    const existingModal = document.getElementById('checkoutModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
 
     let totalAmount = 0;
-    appState.cart.forEach(item => {
-        const li = document.createElement('li');
-        li.style.marginBottom = '10px';
-        li.innerHTML = `<strong>${item.name}</strong> × ${item.quantity} — ₦${(item.price * item.quantity).toLocaleString()}`;
-        list.appendChild(li);
+    const itemsHtml = appState.cart.map(item => {
         totalAmount += item.price * item.quantity;
-    });
+        return `
+            <li style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>${item.name}</strong> × ${item.quantity}
+                </div>
+                <div>
+                    ₦${(item.price * item.quantity).toLocaleString()}
+                </div>
+            </li>
+        `;
+    }).join('');
 
-    checkoutPage.appendChild(list);
+    const checkoutModalHTML = `
+        <div id="checkoutModal" style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Slightly lower than payment modal, but still high */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+        ">
+            <div style="
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                width: 90%;
+                max-width: 550px; /* Adjust max-width as needed */
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+                position: relative;
+                transform: translateY(-20px);
+                transition: transform 0.3s ease-out;
+                max-height: 90vh; /* Limit height for scrollable content */
+                overflow-y: auto; /* Enable scrolling for long carts */
+            ">
+                <span onclick="closeCheckoutModal()" style="
+                    position: absolute;
+                    top: 15px;
+                    right: 20px;
+                    font-size: 30px;
+                    cursor: pointer;
+                    color: #888;
+                    font-family: Arial, sans-serif;
+                    line-height: 1;
+                ">&times;</span>
+                <h2 style="
+                    margin-top: 0;
+                    margin-bottom: 25px;
+                    color: #333;
+                    font-size: 2em;
+                    text-align: center;
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 15px;
+                ">🛒 Your Cart Summary</h2>
 
-    // Add total amount
-    const totalDiv = document.createElement('div');
-    totalDiv.style.marginTop = '1rem';
-    totalDiv.style.fontSize = '1.2rem';
-    totalDiv.style.fontWeight = 'bold';
-    totalDiv.innerHTML = `<strong>Total: ₦${totalAmount.toLocaleString()}</strong>`;
-    checkoutPage.appendChild(totalDiv);
+                <ul style="list-style: none; padding: 0; margin-bottom: 20px;">
+                    ${itemsHtml}
+                </ul>
 
-    // Add proceed to payment button
-    const proceedBtn = document.createElement('button');
-    proceedBtn.textContent = '💳 Proceed to Payment';
-    proceedBtn.className = 'btn btn-primary';
-    proceedBtn.style.marginTop = '1rem';
-    proceedBtn.style.marginRight = '10px';
-    proceedBtn.onclick = () => showPaymentModal(totalAmount);
-    checkoutPage.appendChild(proceedBtn);
+                <div style="
+                    margin-top: 1.5rem;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    text-align: right;
+                    padding-top: 15px;
+                    border-top: 1px solid #eee;
+                    color: #007bff;
+                ">
+                    <strong>Total: ₦${totalAmount.toLocaleString()}</strong>
+                </div>
 
-    // Add back button
-    const backBtn = document.createElement('button');
-    backBtn.textContent = '⬅ Back to Shop';
-    backBtn.className = 'btn btn-secondary';
-    backBtn.style.marginTop = '1rem';
-    backBtn.onclick = () => {
-        checkoutPage.style.display = 'none';
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(p => p.style.display = 'block');
-    };
+                <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 30px;">
+                    <button type="button" onclick="closeCheckoutModal()" style="
+                        padding: 12px 25px;
+                        border: 1px solid #ccc;
+                        border-radius: 8px;
+                        background-color: #f0f0f0;
+                        color: #555;
+                        font-size: 1em;
+                        cursor: pointer;
+                        transition: background-color 0.2s ease, border-color 0.2s ease;
+                    ">⬅ Continue Shopping</button>
+                    <button type="button" onclick="showPaymentModal(${totalAmount})" style="
+                        padding: 12px 25px;
+                        border: none;
+                        border-radius: 8px;
+                        background-color: #28a745; /* Green for proceed */
+                        color: white;
+                        font-size: 1em;
+                        cursor: pointer;
+                        transition: background-color 0.2s ease;
+                    ">💳 Proceed to Payment</button>
+                </div>
+            </div>
+        </div>
+    `;
 
-    checkoutPage.appendChild(backBtn);
+    document.body.insertAdjacentHTML('beforeend', checkoutModalHTML);
+    document.body.style.overflow = 'hidden'; // Prevent body scroll
 
-    // Hide all other pages
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(p => p.style.display = 'none');
-
-    // Show checkout page
-    checkoutPage.style.display = 'block';
+    const checkoutModalElement = document.getElementById('checkoutModal');
+    if (checkoutModalElement) {
+        setTimeout(() => {
+            checkoutModalElement.style.opacity = '1';
+            checkoutModalElement.style.visibility = 'visible';
+            checkoutModalElement.querySelector('div:first-child').style.transform = 'translateY(0)';
+        }, 10);
+        showToast('✅ Review your order before proceeding.', 'info');
+    } else {
+        console.error('Error: Checkout modal element not found after insertion.');
+    }
 }
 
-function showPaymentModal(totalAmount) {
-    // Create modal overlay
-    const modalOverlay = document.createElement('div');
-    modalOverlay.id = 'paymentModal';
-    modalOverlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
+window.closeCheckoutModal = function() {
+    const modal = document.getElementById('checkoutModal');
+    if (modal) {
+        modal.style.opacity = '0';
+        modal.style.visibility = 'hidden';
+        modal.querySelector('div:first-child').style.transform = 'translateY(-20px)';
+
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto'; // Re-enable body scroll
+        }, 300);
+    }
+};
+
+// --- Self-contained Payment Modal Functions (no change needed) ---
+
+window.showPaymentModal = function(totalAmount) {
+    closeCheckoutModal(); // Close checkout modal when payment modal opens
+    const existingModal = document.getElementById('paymentModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const paymentModalHTML = `
+        <div id="paymentModal" style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000; /* High z-index to ensure it's on top */
+            opacity: 0; /* Start hidden for transition */
+            visibility: hidden; /* Start hidden for transition */
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out; /* Smooth transition */
+        ">
+            <div style="
+                background: white;
+                padding: 25px;
+                border-radius: 12px;
+                width: 90%;
+                max-width: 480px; /* Slightly larger for more content */
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+                position: relative; /* For close button positioning */
+                transform: translateY(-20px); /* Slight lift for effect */
+                transition: transform 0.3s ease-out; /* Transition for transform */
+            ">
+                <span onclick="closePaymentModal()" style="
+                    position: absolute;
+                    top: 15px;
+                    right: 20px;
+                    font-size: 28px;
+                    cursor: pointer;
+                    color: #888;
+                    font-family: Arial, sans-serif;
+                    line-height: 1; /* Adjust line-height for better centering */
+                ">&times;</span>
+                <h3 style="
+                    margin-top: 0;
+                    margin-bottom: 25px;
+                    color: #333;
+                    font-size: 1.8em;
+                    text-align: center;
+                ">💳 Payment Details</h3>
+
+                <p style="
+                    text-align: center;
+                    font-size: 1.3em;
+                    margin-bottom: 30px;
+                    color: #007bff;
+                    font-weight: bold;
+                    background: #e9f5ff; /* Light blue background for total */
+                    padding: 12px;
+                    border-radius: 8px;
+                ">
+                    Total Amount: ₦${totalAmount.toLocaleString()}
+                </p>
+
+                <form id="paymentForm">
+                    <div style="margin-bottom: 18px;">
+                        <label for="customerName" style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">Full Name:</label>
+                        <input type="text" id="customerName" required placeholder="Your Full Name" style="
+                            width: calc(100% - 24px);
+                            padding: 12px;
+                            border: 1px solid #ccc;
+                            border-radius: 8px;
+                            font-size: 1em;
+                            box-sizing: border-box;
+                        ">
+                    </div>
+
+                    <div style="margin-bottom: 18px;">
+                        <label for="customerPhone" style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">Phone Number:</label>
+                        <input type="tel" id="customerPhone" required placeholder="e.g., 08012345678" style="
+                            width: calc(100% - 24px);
+                            padding: 12px;
+                            border: 1px solid #ccc;
+                            border-radius: 8px;
+                            font-size: 1em;
+                            box-sizing: border-box;
+                        ">
+                    </div>
+
+                    <div style="margin-bottom: 18px;">
+                        <label for="customerEmail" style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">Email:</label>
+                        <input type="email" id="customerEmail" required placeholder="your@email.com" style="
+                            width: calc(100% - 24px);
+                            padding: 12px;
+                            border: 1px solid #ccc;
+                            border-radius: 8px;
+                            font-size: 1em;
+                            box-sizing: border-box;
+                        ">
+                    </div>
+
+                    <div style="margin-bottom: 18px;">
+                        <label for="deliveryAddress" style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">Delivery Address:</label>
+                        <textarea id="deliveryAddress" required rows="3" placeholder="Your street, city, state" style="
+                            width: calc(100% - 24px);
+                            padding: 12px;
+                            border: 1px solid #ccc;
+                            border-radius: 8px;
+                            font-size: 1em;
+                            box-sizing: border-box;
+                            resize: vertical;
+                        "></textarea>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label for="paymentMethod" style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">Payment Method:</label>
+                        <select id="paymentMethod" required style="
+                            width: 100%;
+                            padding: 12px;
+                            border: 1px solid #ccc;
+                            border-radius: 8px;
+                            font-size: 1em;
+                            background-color: white;
+                            appearance: none; /* Remove default arrow */
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
+                            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20512%22%3E%3Cpath%20fill%3D%22%23444%22%20d%3D%22M192%20384c-8.18%200-16.35-3.12-22.63-9.37l-128-128c-12.5-12.5-12.5-32.75%200-45.25s32.75-12.5%2045.25%200L192%20306.88l105.37-105.38c12.5-12.5%2032.75-12.5%2045.25%200s12.5%2032.75%200%2045.25l-128%20128C208.35%20380.88%20200.18%20384%20192%20384z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
+                            background-repeat: no-repeat;
+                            background-position: right 15px center;
+                            background-size: 1em;
+                            cursor: pointer;
+                        ">
+                            <option value="">Select Payment Method</option>
+                            <option value="card">💳 Credit/Debit Card</option>
+                            <option value="bank_transfer">🏦 Bank Transfer</option>
+                            <option value="paystack">💰 Paystack</option>
+                            <option value="cash_on_delivery">💵 Cash on Delivery</option>
+                        </select>
+                    </div>
+                </form>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" onclick="closePaymentModal(); showToast('Operation cancelled.', 'info');" style="
+                        padding: 12px 25px;
+                        border: 1px solid #ccc;
+                        border-radius: 8px;
+                        background-color: #f0f0f0;
+                        color: #555;
+                        font-size: 1em;
+                        cursor: pointer;
+                        transition: background-color 0.2s ease, border-color 0.2s ease;
+                    ">❌ Cancel</button>
+                    <button type="button" id="confirmPaymentBtn" onclick="processPayment(${totalAmount})" style="
+                        padding: 12px 25px;
+                        border: none;
+                        border-radius: 8px;
+                        background-color: #007bff; /* Primary blue */
+                        color: white;
+                        font-size: 1em;
+                        cursor: pointer;
+                        transition: background-color 0.2s ease;
+                    ">✅ Confirm Payment</button>
+                </div>
+            </div>
+        </div>
     `;
 
-    // Create modal content
-    const modalContent = document.createElement('div');
-    modalContent.style.cssText = `
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        width: 90%;
-        max-width: 400px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    `;
+    document.body.insertAdjacentHTML('beforeend', paymentModalHTML);
+    document.body.style.overflow = 'hidden'; // Still prevent body scroll
 
-    // Modal title
-    const modalTitle = document.createElement('h3');
-    modalTitle.textContent = '💳 Payment Details';
-    modalTitle.style.marginBottom = '1rem';
-    modalContent.appendChild(modalTitle);
-
-    // Order total
-    const orderTotal = document.createElement('div');
-    orderTotal.style.cssText = `
-        background: #f8f9fa;
-        padding: 1rem;
-        border-radius: 5px;
-        margin-bottom: 1rem;
-        font-weight: bold;
-        text-align: center;
-    `;
-    orderTotal.innerHTML = `Total Amount: ₦${totalAmount.toLocaleString()}`;
-    modalContent.appendChild(orderTotal);
-
-    // Customer details form
-    const form = document.createElement('form');
-    form.innerHTML = `
-        <div style="margin-bottom: 1rem;">
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Full Name:</label>
-            <input type="text" id="customerName" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
-        </div>
-        
-        <div style="margin-bottom: 1rem;">
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Phone Number:</label>
-            <input type="tel" id="customerPhone" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
-        </div>
-        
-        <div style="margin-bottom: 1rem;">
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email:</label>
-            <input type="email" id="customerEmail" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
-        </div>
-        
-        <div style="margin-bottom: 1rem;">
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Delivery Address:</label>
-            <textarea id="deliveryAddress" required rows="3" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; resize: vertical;"></textarea>
-        </div>
-        
-        <div style="margin-bottom: 1rem;">
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Payment Method:</label>
-            <select id="paymentMethod" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
-                <option value="">Select Payment Method</option>
-                <option value="card">💳 Credit/Debit Card</option>
-                <option value="bank_transfer">🏦 Bank Transfer</option>
-                <option value="paystack">💰 Paystack</option>
-                <option value="cash_on_delivery">💵 Cash on Delivery</option>
-            </select>
-        </div>
-    `;
-    
-    modalContent.appendChild(form);
-
-    // Modal buttons
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.cssText = `
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-        margin-top: 1rem;
-    `;
-
-    const cancelBtn = document.createElement('button');
-    cancelBtn.textContent = '❌ Cancel';
-    cancelBtn.type = 'button';
-    cancelBtn.className = 'btn btn-secondary';
-    cancelBtn.onclick = () => {
-        document.body.removeChild(modalOverlay);
-    };
-
-    const confirmBtn = document.createElement('button');
-    confirmBtn.textContent = '✅ Confirm Payment';
-    confirmBtn.type = 'button';
-    confirmBtn.className = 'btn btn-primary';
-    confirmBtn.onclick = () => processPayment(modalOverlay, totalAmount);
-
-    buttonContainer.appendChild(cancelBtn);
-    buttonContainer.appendChild(confirmBtn);
-    modalContent.appendChild(buttonContainer);
-
-    modalOverlay.appendChild(modalContent);
-    document.body.appendChild(modalOverlay);
-
-    // Close modal when clicking outside
-    modalOverlay.onclick = (e) => {
-        if (e.target === modalOverlay) {
-            document.body.removeChild(modalOverlay);
-        }
-    };
+    const paymentModalElement = document.getElementById('paymentModal');
+    if (paymentModalElement) {
+        // Trigger the CSS transition by changing opacity and visibility after a short delay
+        setTimeout(() => {
+            paymentModalElement.style.opacity = '1';
+            paymentModalElement.style.visibility = 'visible';
+            paymentModalElement.querySelector('div:first-child').style.transform = 'translateY(0)'; // Reset transform for content
+        }, 10); // Small delay to allow CSS to register initial state
+        console.log('Self-contained payment modal displayed.');
+    } else {
+        console.error('Error: Payment modal element not found after insertion.');
+    }
 }
 
-function processPayment(modalOverlay, totalAmount) {
-    // Get form values
+window.closePaymentModal = function() {
+    const modal = document.getElementById('paymentModal');
+    if (modal) {
+        // Trigger CSS fade-out and transform back
+        modal.style.opacity = '0';
+        modal.style.visibility = 'hidden';
+        modal.querySelector('div:first-child').style.transform = 'translateY(-20px)';
+
+        // Remove from DOM after transition completes (0.3s)
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.remove();
+            }
+            // Do NOT re-enable body overflow here; it's handled by closeSuccessModal, or if you close directly from payment, re-enable
+             document.body.style.overflow = 'auto'; // Re-enable if payment modal is closed without success modal
+        }, 300);
+    }
+}
+
+// --- Process Payment (remains largely the same, but calls self-contained modals) ---
+window.processPayment = function(totalAmount) {
     const customerName = document.getElementById('customerName').value.trim();
     const customerPhone = document.getElementById('customerPhone').value.trim();
     const customerEmail = document.getElementById('customerEmail').value.trim();
     const deliveryAddress = document.getElementById('deliveryAddress').value.trim();
     const paymentMethod = document.getElementById('paymentMethod').value;
 
-    // Validate required fields
     if (!customerName || !customerPhone || !customerEmail || !deliveryAddress || !paymentMethod) {
-        showToast('❌ Please fill in all required fields', 'error');
+        showToast('❌ Please fill in all required fields.', 'error');
         return;
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(customerEmail)) {
-        showToast('❌ Please enter a valid email address', 'error');
+        showToast('❌ Please enter a valid email address.', 'error');
         return;
     }
 
-    // Create order object
     const order = {
-        id: Date.now().toString(),
+        id: 'ORDER-' + Date.now().toString().slice(-6) + Math.random().toString(36).substring(2, 6).toUpperCase(),
         customerName,
         customerPhone,
         customerEmail,
@@ -2577,125 +2732,184 @@ function processPayment(modalOverlay, totalAmount) {
         paymentMethod,
         items: [...appState.cart],
         totalAmount,
-        orderDate: new Date().toLocaleString(),
-        status: 'confirmed'
+        orderDate: new Date().toLocaleString('en-NG'),
+        status: 'pending'
     };
 
-    // Simulate payment processing with loading
-    const confirmBtn = modalOverlay.querySelector('.btn-primary');
+    const confirmBtn = document.getElementById('confirmPaymentBtn');
     const originalText = confirmBtn.textContent;
     confirmBtn.textContent = '⏳ Processing...';
     confirmBtn.disabled = true;
 
+    showToast('⏳ Processing your payment...', 'info');
+
     setTimeout(() => {
-        // Store order (in real app, this would be sent to server)
-        if (!appState.orders) {
-            appState.orders = [];
+        const paymentSuccessful = Math.random() > 0.1;
+
+        confirmBtn.textContent = originalText;
+        confirmBtn.disabled = false;
+
+        if (paymentSuccessful) {
+            order.status = 'confirmed';
+            if (!appState.orders) {
+                appState.orders = [];
+            }
+            appState.orders.push(order);
+
+            appState.cart = [];
+
+            closePaymentModal(); // Close payment modal
+            showSuccessModal(order); // Show success modal
+
+            if (typeof updateCartDisplay === 'function') {
+                updateCartDisplay();
+            }
+            showToast('🎉 Payment successful! Order placed.', 'success');
+        } else {
+            showToast('❌ Payment failed. Please try again.', 'error');
         }
-        appState.orders.push(order);
-
-        // Clear cart
-        appState.cart = [];
-
-        // Close modal
-        document.body.removeChild(modalOverlay);
-
-        // Show success modal
-        showSuccessModal(order);
-
-        // Update cart display if it exists
-        if (typeof updateCartDisplay === 'function') {
-            updateCartDisplay();
-        }
-
-    }, 2000); // 2 second delay to simulate processing
+    }, 2000);
 }
 
-function showSuccessModal(order) {
-    // Create success modal overlay
-    const successOverlay = document.createElement('div');
-    successOverlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    `;
+// --- Self-contained Success Modal Functions (no change needed) ---
+window.showSuccessModal = function(order) {
+    const existingModal = document.getElementById('successModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
 
-    // Create success modal content
-    const successContent = document.createElement('div');
-    successContent.style.cssText = `
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        width: 90%;
-        max-width: 400px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    `;
-
-    // Success message
-    successContent.innerHTML = `
-        <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
-        <h3 style="color: #28a745; margin-bottom: 1rem;">Payment Successful!</h3>
-        <p style="margin-bottom: 1rem;">Thank you for your order, ${order.customerName}!</p>
-        <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
-            <strong>Order ID:</strong> ${order.id}<br>
-            <strong>Total:</strong> ₦${order.totalAmount.toLocaleString()}<br>
-            <strong>Payment Method:</strong> ${getPaymentMethodName(order.paymentMethod)}
+    const successModalHTML = `
+        <div id="successModal" style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+        ">
+            <div style="
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                width: 90%;
+                max-width: 400px;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+                text-align: center;
+                transform: translateY(-20px);
+                transition: transform 0.3s ease-out;
+            ">
+                <div style="font-size: 5rem; margin-bottom: 20px; color: #28a745;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 style="color: #28a745; margin-bottom: 15px; font-size: 1.8em;">Order Placed Successfully!</h3>
+                <p style="font-size: 1.1em; color: #555; margin-bottom: 20px;">Thank you for your order, ${order.customerName}!</p>
+                <div style="
+                    background: #e9f5ff; /* Light blue background for order details */
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-bottom: 25px;
+                    text-align: left;
+                    font-size: 0.95em;
+                    line-height: 1.6;
+                ">
+                    <strong>Order ID:</strong> ${order.id}<br>
+                    <strong>Total:</strong> ₦${order.totalAmount.toLocaleString()}<br>
+                    <strong>Payment Method:</strong> ${getPaymentMethodName(order.paymentMethod)}
+                </div>
+                <p style="font-size: 0.9em; color: #666; margin-bottom: 30px;">
+                    You will receive an order confirmation shortly.
+                    Your order will be delivered to: <strong>${order.deliveryAddress}</strong>
+                </p>
+                <button onclick="closeSuccessModal()" style="
+                    padding: 12px 30px;
+                    border: none;
+                    border-radius: 8px;
+                    background-color: #007bff;
+                    color: white;
+                    font-size: 1.1em;
+                    cursor: pointer;
+                    transition: background-color 0.2s ease;
+                ">Continue Shopping</button>
+            </div>
         </div>
-        <p style="font-size: 0.9rem; color: #666;">
-            You will receive an order confirmation shortly. 
-            Your order will be delivered to: ${order.deliveryAddress}
-        </p>
     `;
 
-    // OK button
-    const okBtn = document.createElement('button');
-    okBtn.textContent = '🏪 Continue Shopping';
-    okBtn.className = 'btn btn-primary';
-    okBtn.style.marginTop = '1rem';
-    okBtn.onclick = () => {
-        document.body.removeChild(successOverlay);
-        
-        // Navigate back to shop
-        const checkoutPage = document.getElementById('checkoutPage');
-        if (checkoutPage) {
-            checkoutPage.style.display = 'none';
-        }
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(p => p.style.display = 'block');
-        
-        showToast('🎉 Order placed successfully! Order ID: ' + order.id, 'success');
-    };
+    document.body.insertAdjacentHTML('beforeend', successModalHTML);
+    document.body.style.overflow = 'hidden'; // Keep body non-scrollable
 
-    successContent.appendChild(okBtn);
-    successOverlay.appendChild(successContent);
-    document.body.appendChild(successOverlay);
-
-    // Close modal when clicking outside
-    successOverlay.onclick = (e) => {
-        if (e.target === successOverlay) {
-            okBtn.click();
-        }
-    };
+    const successModalElement = document.getElementById('successModal');
+    if (successModalElement) {
+        // Trigger the CSS transition
+        setTimeout(() => {
+            successModalElement.style.opacity = '1';
+            successModalElement.style.visibility = 'visible';
+            successModalElement.querySelector('div:first-child').style.transform = 'translateY(0)';
+        }, 10);
+        console.log('Self-contained success modal displayed.');
+    } else {
+        console.error('Error: Success modal element not found after insertion.');
+    }
 }
 
+window.closeSuccessModal = function() {
+    const modal = document.getElementById('successModal');
+    if (modal) {
+        // Trigger CSS fade-out and transform back
+        modal.style.opacity = '0';
+        modal.style.visibility = 'hidden';
+        modal.querySelector('div:first-child').style.transform = 'translateY(-20px)';
+
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto'; // Re-enable body scroll
+            // Since checkout and payment are now modals, no need to manage '.page' elements
+            showToast('🎉 Welcome back to HomeVibe!', 'info');
+        }, 300);
+    }
+}
+
+
+// Helper function for payment method display (assuming it exists or define it)
 function getPaymentMethodName(method) {
-    const methods = {
-        'card': '💳 Credit/Debit Card',
-        'bank_transfer': '🏦 Bank Transfer',
-        'paystack': '💰 Paystack',
-        'cash_on_delivery': '💵 Cash on Delivery'
-    };
-    return methods[method] || method;
+    switch (method) {
+        case 'card': return 'Credit/Debit Card';
+        case 'bank_transfer': return 'Bank Transfer';
+        case 'paystack': return 'Paystack';
+        case 'cash_on_delivery': return 'Cash on Delivery';
+        default: return method;
+    }
 }
 
+// Placeholder for appState and showToast (ensure these are defined in your actual application)
+// For demonstration purposes:
+/*
+const appState = {
+    cart: [
+        { name: 'Modern Sofa', quantity: 1, price: 150000 },
+        { name: 'Coffee Table', quantity: 1, price: 50000 }
+    ],
+    orders: []
+};
+
+function showToast(message, type) {
+    console.log(`Toast (${type}): ${message}`);
+    // In a real app, this would show a visual toast notification
+}
+
+function updateCartDisplay() {
+    console.log('Cart display updated (placeholder)');
+    // In a real app, this would update the cart UI element
+}
+*/
 
 
         // Wishlist Functions
