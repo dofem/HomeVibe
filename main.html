@@ -7,6 +7,7 @@
     <title>HomeVibe - Affordable Home Essentials for Nigerian Homes</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary-color: #ff6b35;
@@ -943,65 +944,335 @@
             cursor: pointer;
             color: var(--text-gray);
         }
+
+        /* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--primary);
+    font-size: 24px;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Quiz Question Styles */
+.quiz-question {
+    margin-bottom: 30px;
+}
+
+.quiz-question h4 {
+    margin-bottom: 20px;
+    color: var(--primary);
+    font-size: 20px;
+    text-align: center;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.quiz-option {
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.quiz-option:hover {
+    border-color: var(--primary);
+    background: #f8f9ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.quiz-option i {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+/* Quiz Results Styles */
+#quizResults {
+    text-align: center;
+    padding: 20px;
+}
+
+#quizResults h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+#quizResults p {
+    margin: 20px 0;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+#quizResults .recommendations {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid var(--primary);
+}
+
+#quizResults h4 {
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+#quizResults ul {
+    text-align: left;
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+#quizResults li {
+    margin: 8px 0;
+    color: #555;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark, #0056b3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* Chat Message Styles */
+.chat-message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* FAQ Styles */
+.faq-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.faq-question:hover {
+    background: #f8f9fa;
+}
+
+.faq-answer {
+    display: none;
+    padding: 0 15px 15px 15px;
+    color: #666;
+}
+
+.faq-answer ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10px auto;
+    }
+    
+    .quiz-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .quiz-option {
+        padding: 20px;
+    }
+    
+    .modal-header h3 {
+        font-size: 20px;
+    }
+
+    .faq-answer {
+    /* Existing styles */
+    display: block; /* Important: Change to 'block' here so maxHeight can control visibility */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Add transitions */
+    padding: 0 15px; /* Initial padding when closed */
+}
+
+/* You don't need a separate class for active/open FAQ answers in CSS,
+   the JS will directly set maxHeight. */
+}
     </style>
 </head>
 
 <body>
-    <header class="header">
-        <div class="header-top">
-            <div class="container">
-                Free delivery on orders above ₦50,000 | WhatsApp: +234 812 345 6789
-            </div>
+   <header class="header">
+    <div class="header-top">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Free delivery on orders above ₦50,000 | WhatsApp: +2348034015709</span>
+            <span style="font-weight: bold;">Welcome Group16</span>
         </div>
-        <div class="header-main">
-            <div class="container">
-                <div class="header-content">
-                    <a href="#" class="logo" onclick="showPage('home')">
-                        <i class="fas fa-home"></i>
-                        <span>HomeVibe</span>
-                    </a>
+    </div>
 
-                    <div class="search-bar">
-                        <input type="text" class="search-input" placeholder="Search for furniture, decor, and more..."
-                            id="searchInput">
-                        <button class="search-btn" onclick="performSearch()">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+    <div class="header-main">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo" onclick="showPage('home')">
+                    <i class="fas fa-home"></i>
+                    <span>HomeVibe</span>
+                </a>
 
-                    <div class="header-actions">
-                        <button class="header-action" onclick="showPage('personalise')" title="My Account">
-                            <i class="fas fa-user"></i>
-                        </button>
-                        <button class="header-action" onclick="toggleWishlist()" title="Wishlist">
-                            <i class="fas fa-heart"></i>
-                            <span class="badge" id="wishlistCount">0</span>
-                        </button>
-                        <button class="header-action" onclick="toggleCart()" title="Shopping Cart">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="badge" id="cartCount">0</span>
-                        </button>
-                        <button class="header-action mobile-menu-btn" onclick="toggleMobileMenu()">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search for furniture, decor, and more..."
+                        id="searchInput">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="header-actions">
+                    <button class="header-action" onclick="showPage('personalise')" title="My Account">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="header-action" onclick="toggleWishlist()" title="Wishlist">
+                        <i class="fas fa-heart"></i>
+                        <span class="badge" id="wishlistCount">0</span>
+                    </button>
+                    <button class="header-action" onclick="toggleCart()" title="Shopping Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" id="cartCount">0</span>
+                    </button>
+                    <button class="header-action mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <nav class="nav">
-            <div class="container">
-                <div class="nav-content">
-                    <a href="#" class="nav-item active" onclick="showPage('home')">Home</a>
-                    <a href="#" class="nav-item" onclick="showPage('shop')">Shop</a>
-                    <a href="#" class="nav-item" onclick="showPage('diy')">DIY Tutorials</a>
-                    <a href="#" class="nav-item" onclick="showPage('community')">Community</a>
-                    <a href="#" class="nav-item" onclick="showPage('ar-designer')">AR Room Designer</a>
-                    <a href="#" class="nav-item" onclick="showPage('support')">Support</a>
-                </div>
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="nav-item active" onclick="showPage('home')">Home</a>
+                <a href="#" class="nav-item" onclick="showPage('shop')">Shop</a>
+                <a href="#" class="nav-item" onclick="showPage('diy')">DIY Tutorials</a>
+                <a href="#" class="nav-item" onclick="showPage('community')">Community</a>
+                <a href="#" class="nav-item" onclick="showPage('ar-designer')">AR Room Designer</a>
+                <a href="#" class="nav-item" onclick="showPage('support')">Support</a>
+                <!-- New Quiz Button -->
+                <a href="javascript:void(0);" class="nav-item" onclick="startStyleQuiz()">🎯 Take Style Quiz</a>
+
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
+
 
     <!-- Main Content -->
     <main class="main">
@@ -1310,14 +1581,6 @@
                     <h3>My Wishlist</h3>
                     <p>Save your favorite items and get notified when they go on sale.</p>
                     <a href="#" class="btn btn-primary" style="margin-top: 20px;" onclick="toggleWishlist()">View Wishlist</a>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <h3>Style Quiz</h3>
-                    <p>Take our quick quiz to get personalized product recommendations.</p>
-                    <a href="#" class="btn btn-primary" style="margin-top: 20px;" onclick="startStyleQuiz()">Take Quiz</a>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -1859,7 +2122,7 @@ window.addEventListener('click', function(event) {
                     <button class="wishlist-btn ${isInWishlist ? 'active' : ''}" onclick="toggleWishlistItem(${product.id})">
                         <i class="fas fa-heart"></i>
                     </button>
-                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200/f8f9fa/666?text=Product+Image'">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='data:image/jpeg;base64,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'">
                     <div class="product-info">
                         <h3 class="product-name">${product.name}</h3>
                         <div class="product-price">₦${product.price.toLocaleString()}</div>
@@ -2048,7 +2311,7 @@ window.addEventListener('click', function(event) {
                 } else {
                     cartItemsElement.innerHTML = appState.cart.map(item => `
                         <div class="cart-item">
-                            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/60x60/f8f9fa/666?text=IMG'">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='data:image/jpeg;base64,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'">
                             <div class="cart-item-info">
                                 <div class="cart-item-name">${item.name}</div>
                                 <div class="cart-item-price">₦${(item.price * item.quantity).toLocaleString()}</div>
@@ -2083,7 +2346,7 @@ window.addEventListener('click', function(event) {
             }
         }
 
-      function goToCheckout() {
+     function goToCheckout() {
     // Ensure checkout page exists
     let checkoutPage = document.getElementById('checkoutPage');
     if (!checkoutPage) {
@@ -2112,19 +2375,39 @@ window.addEventListener('click', function(event) {
     list.style.listStyle = 'none';
     list.style.padding = '0';
 
+    let totalAmount = 0;
     appState.cart.forEach(item => {
         const li = document.createElement('li');
         li.style.marginBottom = '10px';
         li.innerHTML = `<strong>${item.name}</strong> × ${item.quantity} — ₦${(item.price * item.quantity).toLocaleString()}`;
         list.appendChild(li);
+        totalAmount += item.price * item.quantity;
     });
 
     checkoutPage.appendChild(list);
+
+    // Add total amount
+    const totalDiv = document.createElement('div');
+    totalDiv.style.marginTop = '1rem';
+    totalDiv.style.fontSize = '1.2rem';
+    totalDiv.style.fontWeight = 'bold';
+    totalDiv.innerHTML = `<strong>Total: ₦${totalAmount.toLocaleString()}</strong>`;
+    checkoutPage.appendChild(totalDiv);
+
+    // Add proceed to payment button
+    const proceedBtn = document.createElement('button');
+    proceedBtn.textContent = '💳 Proceed to Payment';
+    proceedBtn.className = 'btn btn-primary';
+    proceedBtn.style.marginTop = '1rem';
+    proceedBtn.style.marginRight = '10px';
+    proceedBtn.onclick = () => showPaymentModal(totalAmount);
+    checkoutPage.appendChild(proceedBtn);
 
     // Add back button
     const backBtn = document.createElement('button');
     backBtn.textContent = '⬅ Back to Shop';
     backBtn.className = 'btn btn-secondary';
+    backBtn.style.marginTop = '1rem';
     backBtn.onclick = () => {
         checkoutPage.style.display = 'none';
         const pages = document.querySelectorAll('.page');
@@ -2139,9 +2422,278 @@ window.addEventListener('click', function(event) {
 
     // Show checkout page
     checkoutPage.style.display = 'block';
+}
 
-    // Show toast
-    showToast('✅ Cart ready. Proceed to confirm order.', 'success');
+function showPaymentModal(totalAmount) {
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.id = 'paymentModal';
+    modalOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    `;
+
+    // Create modal content
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    `;
+
+    // Modal title
+    const modalTitle = document.createElement('h3');
+    modalTitle.textContent = '💳 Payment Details';
+    modalTitle.style.marginBottom = '1rem';
+    modalContent.appendChild(modalTitle);
+
+    // Order total
+    const orderTotal = document.createElement('div');
+    orderTotal.style.cssText = `
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        text-align: center;
+    `;
+    orderTotal.innerHTML = `Total Amount: ₦${totalAmount.toLocaleString()}`;
+    modalContent.appendChild(orderTotal);
+
+    // Customer details form
+    const form = document.createElement('form');
+    form.innerHTML = `
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Full Name:</label>
+            <input type="text" id="customerName" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Phone Number:</label>
+            <input type="tel" id="customerPhone" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Email:</label>
+            <input type="email" id="customerEmail" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Delivery Address:</label>
+            <textarea id="deliveryAddress" required rows="3" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; resize: vertical;"></textarea>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Payment Method:</label>
+            <select id="paymentMethod" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                <option value="">Select Payment Method</option>
+                <option value="card">💳 Credit/Debit Card</option>
+                <option value="bank_transfer">🏦 Bank Transfer</option>
+                <option value="paystack">💰 Paystack</option>
+                <option value="cash_on_delivery">💵 Cash on Delivery</option>
+            </select>
+        </div>
+    `;
+    
+    modalContent.appendChild(form);
+
+    // Modal buttons
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    `;
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '❌ Cancel';
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'btn btn-secondary';
+    cancelBtn.onclick = () => {
+        document.body.removeChild(modalOverlay);
+    };
+
+    const confirmBtn = document.createElement('button');
+    confirmBtn.textContent = '✅ Confirm Payment';
+    confirmBtn.type = 'button';
+    confirmBtn.className = 'btn btn-primary';
+    confirmBtn.onclick = () => processPayment(modalOverlay, totalAmount);
+
+    buttonContainer.appendChild(cancelBtn);
+    buttonContainer.appendChild(confirmBtn);
+    modalContent.appendChild(buttonContainer);
+
+    modalOverlay.appendChild(modalContent);
+    document.body.appendChild(modalOverlay);
+
+    // Close modal when clicking outside
+    modalOverlay.onclick = (e) => {
+        if (e.target === modalOverlay) {
+            document.body.removeChild(modalOverlay);
+        }
+    };
+}
+
+function processPayment(modalOverlay, totalAmount) {
+    // Get form values
+    const customerName = document.getElementById('customerName').value.trim();
+    const customerPhone = document.getElementById('customerPhone').value.trim();
+    const customerEmail = document.getElementById('customerEmail').value.trim();
+    const deliveryAddress = document.getElementById('deliveryAddress').value.trim();
+    const paymentMethod = document.getElementById('paymentMethod').value;
+
+    // Validate required fields
+    if (!customerName || !customerPhone || !customerEmail || !deliveryAddress || !paymentMethod) {
+        showToast('❌ Please fill in all required fields', 'error');
+        return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(customerEmail)) {
+        showToast('❌ Please enter a valid email address', 'error');
+        return;
+    }
+
+    // Create order object
+    const order = {
+        id: Date.now().toString(),
+        customerName,
+        customerPhone,
+        customerEmail,
+        deliveryAddress,
+        paymentMethod,
+        items: [...appState.cart],
+        totalAmount,
+        orderDate: new Date().toLocaleString(),
+        status: 'confirmed'
+    };
+
+    // Simulate payment processing with loading
+    const confirmBtn = modalOverlay.querySelector('.btn-primary');
+    const originalText = confirmBtn.textContent;
+    confirmBtn.textContent = '⏳ Processing...';
+    confirmBtn.disabled = true;
+
+    setTimeout(() => {
+        // Store order (in real app, this would be sent to server)
+        if (!appState.orders) {
+            appState.orders = [];
+        }
+        appState.orders.push(order);
+
+        // Clear cart
+        appState.cart = [];
+
+        // Close modal
+        document.body.removeChild(modalOverlay);
+
+        // Show success modal
+        showSuccessModal(order);
+
+        // Update cart display if it exists
+        if (typeof updateCartDisplay === 'function') {
+            updateCartDisplay();
+        }
+
+    }, 2000); // 2 second delay to simulate processing
+}
+
+function showSuccessModal(order) {
+    // Create success modal overlay
+    const successOverlay = document.createElement('div');
+    successOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    `;
+
+    // Create success modal content
+    const successContent = document.createElement('div');
+    successContent.style.cssText = `
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    `;
+
+    // Success message
+    successContent.innerHTML = `
+        <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+        <h3 style="color: #28a745; margin-bottom: 1rem;">Payment Successful!</h3>
+        <p style="margin-bottom: 1rem;">Thank you for your order, ${order.customerName}!</p>
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+            <strong>Order ID:</strong> ${order.id}<br>
+            <strong>Total:</strong> ₦${order.totalAmount.toLocaleString()}<br>
+            <strong>Payment Method:</strong> ${getPaymentMethodName(order.paymentMethod)}
+        </div>
+        <p style="font-size: 0.9rem; color: #666;">
+            You will receive an order confirmation shortly. 
+            Your order will be delivered to: ${order.deliveryAddress}
+        </p>
+    `;
+
+    // OK button
+    const okBtn = document.createElement('button');
+    okBtn.textContent = '🏪 Continue Shopping';
+    okBtn.className = 'btn btn-primary';
+    okBtn.style.marginTop = '1rem';
+    okBtn.onclick = () => {
+        document.body.removeChild(successOverlay);
+        
+        // Navigate back to shop
+        const checkoutPage = document.getElementById('checkoutPage');
+        if (checkoutPage) {
+            checkoutPage.style.display = 'none';
+        }
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.style.display = 'block');
+        
+        showToast('🎉 Order placed successfully! Order ID: ' + order.id, 'success');
+    };
+
+    successContent.appendChild(okBtn);
+    successOverlay.appendChild(successContent);
+    document.body.appendChild(successOverlay);
+
+    // Close modal when clicking outside
+    successOverlay.onclick = (e) => {
+        if (e.target === successOverlay) {
+            okBtn.click();
+        }
+    };
+}
+
+function getPaymentMethodName(method) {
+    const methods = {
+        'card': '💳 Credit/Debit Card',
+        'bank_transfer': '🏦 Bank Transfer',
+        'paystack': '💰 Paystack',
+        'cash_on_delivery': '💵 Cash on Delivery'
+    };
+    return methods[method] || method;
 }
 
 
@@ -2186,7 +2738,7 @@ window.addEventListener('click', function(event) {
                 } else {
                     wishlistItemsElement.innerHTML = appState.wishlist.map(item => `
                         <div class="cart-item">
-                            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/60x60/f8f9fa/666?text=IMG'">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='data:image/jpeg;base64,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'">
                             <div class="cart-item-info">
                                 <div class="cart-item-name">${item.name}</div>
                                 <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
@@ -2331,153 +2883,209 @@ function showSignup() {
     showToast('Sign up feature will be available soon! For now, you can browse as a guest.', 'info');
 }
 
-function startStyleQuiz() {
+// Global variables
+let quizAnswers = {};
+let currentQuestion = 1;
+
+window.startStyleQuiz = function() {
+    // Check if modal already exists and remove it
+    const existingModal = document.getElementById('styleQuizModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Reset quiz state
+    quizAnswers = {};
+    currentQuestion = 1;
+    
     // Create style quiz modal
-    const quizModal = `
-        <div id="styleQuizModal" class="modal" style="display: block;">
-            <div class="modal-content" style="max-width: 600px;">
-                <div class="modal-header">
-                    <h3>Discover Your Style</h3>
-                    <span class="close" onclick="closeStyleQuiz()">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <div id="quizContent">
-                        <div id="question1" class="quiz-question">
-                            <h4>What's your ideal living room vibe?</h4>
-                            <div class="quiz-options">
-                                <button class="quiz-option" onclick="selectOption('modern', 1)">
-                                    <i class="fas fa-cube"></i> Modern & Minimalist
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('cozy', 1)">
-                                    <i class="fas fa-home"></i> Cozy & Traditional
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('bohemian', 1)">
-                                    <i class="fas fa-feather"></i> Bohemian & Eclectic
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('industrial', 1)">
-                                    <i class="fas fa-cog"></i> Industrial & Urban
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div id="question2" class="quiz-question" style="display: none;">
-                            <h4>What colors make you feel most at home?</h4>
-                            <div class="quiz-options">
-                                <button class="quiz-option" onclick="selectOption('neutral', 2)">
-                                    <i class="fas fa-circle" style="color: #f5f5f5;"></i> Neutral & Calm
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('bold', 2)">
-                                    <i class="fas fa-circle" style="color: #ff6b6b;"></i> Bold & Vibrant
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('earth', 2)">
-                                    <i class="fas fa-circle" style="color: #8b4513;"></i> Earth Tones
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('pastel', 2)">
-                                    <i class="fas fa-circle" style="color: #ffb3ba;"></i> Soft Pastels
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div id="question3" class="quiz-question" style="display: none;">
-                            <h4>How do you like to spend time at home?</h4>
-                            <div class="quiz-options">
-                                <button class="quiz-option" onclick="selectOption('entertaining', 3)">
-                                    <i class="fas fa-users"></i> Entertaining Friends
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('relaxing', 3)">
-                                    <i class="fas fa-bed"></i> Quiet Relaxation
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('working', 3)">
-                                    <i class="fas fa-laptop"></i> Working from Home
-                                </button>
-                                <button class="quiz-option" onclick="selectOption('family', 3)">
-                                    <i class="fas fa-heart"></i> Family Time
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div id="quizResults" style="display: none; text-align: center;">
-                            <div id="resultContent"></div>
-                            <button class="btn btn-primary" onclick="closeStyleQuiz()" style="margin-top: 20px;">
-                                Start Shopping
+    const quizModal = document.createElement('div');
+    quizModal.id = 'styleQuizModal';
+    
+    // Force maximum visibility with inline styles
+    quizModal.style.cssText = `
+        display: block !important;
+        position: fixed !important;
+        z-index: 999999 !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background-color: rgba(0,0,0,0.8) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    `;
+    
+    quizModal.innerHTML = `
+        <div style="background-color: white !important; margin: 5% auto !important; padding: 0 !important; border-radius: 8px !important; width: 90% !important; max-width: 600px !important; position: relative !important; box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important; z-index: 1000000 !important;">
+            <div style="padding: 20px !important; border-bottom: 1px solid #e0e0e0 !important; display: flex !important; justify-content: space-between !important; align-items: center !important; background: #f8f9fa !important; border-radius: 8px 8px 0 0 !important;">
+                <h3 style="margin: 0 !important; color: #007bff !important; font-size: 24px !important;">Discover Your Style</h3>
+                <span onclick="closeStyleQuiz()" style="color: #aaa !important; font-size: 28px !important; font-weight: bold !important; cursor: pointer !important; line-height: 1 !important;">&times;</span>
+            </div>
+            <div style="padding: 20px !important;">
+                <div id="quizContent">
+                    <div id="question1" class="quiz-question">
+                        <h4 style="margin-bottom: 20px !important; color: #007bff !important; font-size: 20px !important; text-align: center !important;">What's your ideal living room vibe?</h4>
+                        <div style="display: grid !important; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; gap: 15px !important;">
+                            <button onclick="selectOption('modern', 1)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-cube" style="display: block !important; font-size: 24px !important; margin-bottom: 8px !important; color: #007bff !important;"></i> Modern & Minimalist
+                            </button>
+                            <button onclick="selectOption('cozy', 1)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-home" style="display: block !important; font-size: 24px !important; margin-bottom: 8px !important; color: #007bff !important;"></i> Cozy & Traditional
+                            </button>
+                            <button onclick="selectOption('bohemian', 1)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-feather" style="display: block !important; font-size: 24px !important; margin-bottom: 8px !important; color: #007bff !important;"></i> Bohemian & Eclectic
+                            </button>
+                            <button onclick="selectOption('industrial', 1)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-cog" style="display: block !important; font-size: 24px !important; margin-bottom: 8px !important; color: #007bff !important;"></i> Industrial & Urban
                             </button>
                         </div>
+                    </div>
+                    
+                    <div id="question2" class="quiz-question" style="display: none !important;">
+                        <h4 style="margin-bottom: 20px !important; color: #007bff !important; font-size: 20px !important; text-align: center !important;">What colors make you feel most at home?</h4>
+                        <div style="display: grid !important; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; gap: 15px !important;">
+                            <button onclick="selectOption('neutral', 2)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-circle" style="color: #f5f5f5 !important; display: block !important; font-size: 24px !important; margin-bottom: 8px !important;"></i> Neutral & Calm
+                            </button>
+                            <button onclick="selectOption('bold', 2)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-circle" style="color: #ff6b6b !important; display: block !important; font-size: 24px !important; margin-bottom: 8px !important;"></i> Bold & Vibrant
+                            </button>
+                            <button onclick="selectOption('earth', 2)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-circle" style="color: #8b4513 !important; display: block !important; font-size: 24px !important; margin-bottom: 8px !important;"></i> Earth Tones
+                            </button>
+                            <button onclick="selectOption('pastel', 2)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-circle" style="color: #ffb3ba !important; display: block !important; font-size: 24px !important; margin-bottom: 8px !important;"></i> Soft Pastels
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="question3" class="quiz-question" style="display: none !important;">
+                        <h4 style="margin-bottom: 20px !important; color: #007bff !important; font-size: 20px !important; text-align: center !important;">How do you like to spend time at home?</h4>
+                        <div style="display: grid !important; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; gap: 15px !important;">
+                            <button onclick="selectOption('entertaining', 3)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-users" style="display: block !important; font-size: 24px !important; margin-bottom: 8px !important; color: #007bff !important;"></i> Entertaining Friends
+                            </button>
+                            <button onclick="selectOption('relaxing', 3)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-bed" style="display: block !important; font-size: 24px !important; margin-bottom: 8px !important; color: #007bff !important;"></i> Quiet Relaxation
+                            </button>
+                            <button onclick="selectOption('working', 3)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-laptop" style="display: block !important; font-size: 24px !important; margin-bottom: 8px !important; color: #007bff !important;"></i> Working from Home
+                            </button>
+                            <button onclick="selectOption('family', 3)" style="padding: 15px !important; border: 2px solid #e0e0e0 !important; border-radius: 8px !important; background: white !important; cursor: pointer !important; text-align: center !important; font-size: 14px !important; font-weight: 500 !important;">
+                                <i class="fas fa-heart" style="display: block !important; font-size: 24px !important; margin-bottom: 8px !important; color: #007bff !important;"></i> Family Time
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="quizResults" style="display: none !important; text-align: center !important;">
+                        <div id="resultContent"></div>
+                        <button onclick="closeStyleQuiz()" style="margin-top: 20px !important; background: #007bff !important; color: white !important; padding: 12px 24px !important; border: none !important; border-radius: 6px !important; cursor: pointer !important; font-size: 16px !important; font-weight: 500 !important;">
+                            Start Shopping
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     `;
     
-    document.body.insertAdjacentHTML('beforeend', quizModal);
+    document.body.appendChild(quizModal);
     document.body.style.overflow = 'hidden';
+    
+    console.log('Style quiz modal created successfully');
 }
 
-let quizAnswers = {};
-let currentQuestion = 1;
-
-function selectOption(answer, questionNumber) {
-    quizAnswers[`q${questionNumber}`] = answer;
-    
-    if (questionNumber < 3) {
-        document.getElementById(`question${questionNumber}`).style.display = 'none';
-        document.getElementById(`question${questionNumber + 1}`).style.display = 'block';
-        currentQuestion++;
-    } else {
-        showQuizResults();
+window.selectOption = function(answer, questionNumber) {
+    try {
+        quizAnswers[`q${questionNumber}`] = answer;
+        console.log('Selected:', answer, 'for question', questionNumber);
+        
+        if (questionNumber < 3) {
+            document.getElementById(`question${questionNumber}`).style.display = 'none';
+            document.getElementById(`question${questionNumber + 1}`).style.display = 'block';
+            currentQuestion++;
+        } else {
+            showQuizResults();
+        }
+    } catch (error) {
+        console.error('Error in selectOption:', error);
     }
 }
 
 function showQuizResults() {
-    document.getElementById('question3').style.display = 'none';
-    
-    // Simple logic to determine style
-    let style = "Modern Minimalist";
-    let description = "Clean lines, neutral colors, and functional furniture";
-    let recommendations = ["Sleek sofas", "Geometric lighting", "Minimalist decor"];
-    
-    if (quizAnswers.q1 === 'cozy') {
-        style = "Cozy Traditional";
-        description = "Warm textures, rich colors, and comfortable furnishings";
-        recommendations = ["Plush armchairs", "Warm lighting", "Soft textiles"];
-    } else if (quizAnswers.q1 === 'bohemian') {
-        style = "Bohemian Chic";
-        description = "Eclectic mix, vibrant patterns, and global influences";
-        recommendations = ["Patterned rugs", "Floor cushions", "Plant collections"];
-    } else if (quizAnswers.q1 === 'industrial') {
-        style = "Industrial Urban";
-        description = "Raw materials, metal accents, and urban aesthetics";
-        recommendations = ["Metal furniture", "Edison bulb lighting", "Exposed shelving"];
+    try {
+        document.getElementById('question3').style.display = 'none';
+        
+        // Simple logic to determine style
+        let style = "Modern Minimalist";
+        let description = "Clean lines, neutral colors, and functional furniture";
+        let recommendations = ["Sleek sofas", "Geometric lighting", "Minimalist decor"];
+        
+        if (quizAnswers.q1 === 'cozy') {
+            style = "Cozy Traditional";
+            description = "Warm textures, rich colors, and comfortable furnishings";
+            recommendations = ["Plush armchairs", "Warm lighting", "Soft textiles"];
+        } else if (quizAnswers.q1 === 'bohemian') {
+            style = "Bohemian Chic";
+            description = "Eclectic mix, vibrant patterns, and global influences";
+            recommendations = ["Patterned rugs", "Floor cushions", "Plant collections"];
+        } else if (quizAnswers.q1 === 'industrial') {
+            style = "Industrial Urban";
+            description = "Raw materials, metal accents, and urban aesthetics";
+            recommendations = ["Metal furniture", "Edison bulb lighting", "Exposed shelving"];
+        }
+        
+        const resultHTML = `
+            <h3>Your Style: ${style}</h3>
+            <p style="margin: 20px 0; color: #666;">${description}</p>
+            <div class="recommendations">
+                <h4>Recommended for you:</h4>
+                <ul style="text-align: left; margin: 10px 0;">
+                    ${recommendations.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        
+        document.getElementById('resultContent').innerHTML = resultHTML;
+        document.getElementById('quizResults').style.display = 'block';
+        
+        console.log('Quiz results displayed');
+    } catch (error) {
+        console.error('Error in showQuizResults:', error);
     }
-    
-    const resultHTML = `
-        <h3>Your Style: ${style}</h3>
-        <p style="margin: 20px 0; color: #666;">${description}</p>
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h4>Recommended for you:</h4>
-            <ul style="text-align: left; margin: 10px 0;">
-                ${recommendations.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-        </div>
-    `;
-    
-    document.getElementById('resultContent').innerHTML = resultHTML;
-    document.getElementById('quizResults').style.display = 'block';
 }
 
-function closeStyleQuiz() {
-    const modal = document.getElementById('styleQuizModal');
-    if (modal) {
-        modal.remove();
-        document.body.style.overflow = 'auto';
+window.closeStyleQuiz = function() {
+    try {
+        const modal = document.getElementById('styleQuizModal');
+        if (modal) {
+            modal.remove();
+            document.body.style.overflow = 'auto';
+            console.log('Style quiz modal closed');
+        }
+        quizAnswers = {};
+        currentQuestion = 1;
+    } catch (error) {
+        console.error('Error in closeStyleQuiz:', error);
     }
-    quizAnswers = {};
-    currentQuestion = 1;
 }
 
-function openChatbot() {
-    // Create chatbot interface
-    const chatbotModal = `
-        <div id="chatbotModal" class="modal" style="display: block;">
+// Global variables (assuming these are already defined elsewhere or will be)
+// let quizAnswers = {};
+// let currentQuestion = 1;
+
+// Function to open the chatbot modal
+window.openChatbot = function() {
+    // Check if modal already exists and remove it to prevent duplicates
+    const existingModal = document.getElementById('chatbotModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Create chatbot interface HTML string
+    const chatbotModalHTML = `
+        <div id="chatbotModal" class="modal">
             <div class="modal-content" style="max-width: 500px; height: 600px; display: flex; flex-direction: column;">
                 <div class="modal-header">
                     <h3>HomeVibe Assistant</h3>
@@ -2491,7 +3099,7 @@ function openChatbot() {
                         </div>
                     </div>
                     <div style="display: flex; gap: 10px;">
-                        <input type="text" id="chatInput" placeholder="Ask me anything about home decor..." 
+                        <input type="text" id="chatInput" placeholder="Ask me anything about home decor..."
                                style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"
                                onkeypress="if(event.key==='Enter') sendChatMessage()">
                         <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
@@ -2502,34 +3110,48 @@ function openChatbot() {
                             <button class="btn btn-outline btn-sm" onclick="sendQuickMessage('What are your best-selling items?')" style="margin: 2px; font-size: 12px;">Best sellers</button>
                             <button class="btn btn-outline btn-sm" onclick="sendQuickMessage('I need help decorating a small living room')" style="margin: 2px; font-size: 12px;">Small space tips</button>
                             <button class="btn btn-outline btn-sm" onclick="sendQuickMessage('What is your return policy?')" style="margin: 2px; font-size: 12px;">Return policy</button>
+                            <button class="btn btn-outline btn-sm" onclick="sendQuickMessage('I want to take the style quiz')" style="margin: 2px; font-size: 12px;">Style quiz</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     `;
-    
-    document.body.insertAdjacentHTML('beforeend', chatbotModal);
-    document.body.style.overflow = 'hidden';
-}
 
-function sendChatMessage() {
-    const input = document.getElementById('chatInput');
-    const message = input.value.trim();
-    
-    if (message) {
-        addChatMessage(message, 'user');
-        input.value = '';
-        
-        // Simulate bot response
-        setTimeout(() => {
-            const response = getBotResponse(message);
-            addChatMessage(response, 'bot');
-        }, 1000);
+    // Insert the modal HTML into the body
+    document.body.insertAdjacentHTML('beforeend', chatbotModalHTML);
+    document.body.style.overflow = 'hidden'; // Prevent body scrolling when modal is open
+
+    // Get the newly created modal element
+    const chatbotElement = document.getElementById('chatbotModal');
+    if (chatbotElement) {
+        // Add the 'active' class to make it visible with CSS transition
+        chatbotElement.classList.add('active');
+        console.log('Chatbot modal created and set to active.');
+    } else {
+        console.error('Error: Chatbot modal element not found after insertion.');
     }
 }
 
-function sendQuickMessage(message) {
+// Function to send a message
+window.sendChatMessage = function() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+
+    if (message) {
+        addChatMessage(message, 'user');
+        input.value = ''; // Clear input field
+
+        // Simulate bot response after a delay
+        setTimeout(() => {
+            const response = getBotResponse(message);
+            addChatMessage(response, 'bot');
+        }, 1000); // 1-second delay for bot response
+    }
+}
+
+// Function to send a quick suggestion message
+window.sendQuickMessage = function(message) {
     addChatMessage(message, 'user');
     setTimeout(() => {
         const response = getBotResponse(message);
@@ -2537,59 +3159,91 @@ function sendQuickMessage(message) {
     }, 1000);
 }
 
+// Function to add a message to the chat display
 function addChatMessage(message, sender) {
     const chatMessages = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
     messageDiv.className = `chat-message ${sender}-message`;
-    
+
     if (sender === 'user') {
         messageDiv.innerHTML = `<strong>You:</strong><br>${message}`;
         messageDiv.style.textAlign = 'right';
-        messageDiv.style.backgroundColor = '#e3f2fd';
+        messageDiv.style.backgroundColor = '#e3f2fd'; // Light blue for user
+        messageDiv.style.marginLeft = 'auto'; // Push to right
     } else {
         messageDiv.innerHTML = `<strong>HomeVibe Assistant:</strong><br>${message}`;
-        messageDiv.style.backgroundColor = '#f1f8e9';
+        messageDiv.style.backgroundColor = '#f1f8e9'; // Light green for bot
+        messageDiv.style.marginRight = 'auto'; // Push to left
     }
-    
-    messageDiv.style.margin = '10px 0';
+
+    messageDiv.style.maxWidth = '80%'; // Limit message width
+    messageDiv.style.wordWrap = 'break-word'; // Ensure long words wrap
+    messageDiv.style.marginBottom = '10px';
     messageDiv.style.padding = '10px';
     messageDiv.style.borderRadius = '8px';
-    
+
     chatMessages.appendChild(messageDiv);
+    // Scroll to the bottom to show the latest message
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+// Function to determine bot's response
 function getBotResponse(message) {
     const lowerMessage = message.toLowerCase();
-    
+
     if (lowerMessage.includes('best') || lowerMessage.includes('popular')) {
         return "Our best-selling items include modern sofas, LED lighting fixtures, and indoor plants. Would you like me to show you any specific category?";
     } else if (lowerMessage.includes('small') || lowerMessage.includes('space')) {
         return "For small spaces, I recommend multi-functional furniture, mirrors to create illusion of space, and vertical storage solutions. Light colors also help make rooms feel larger!";
     } else if (lowerMessage.includes('return') || lowerMessage.includes('policy')) {
         return "We offer a 30-day return policy for all items in original condition. Free returns for orders over ₦50,000. Would you like more details about our return process?";
-    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+    } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('budget')) {
         return "Our prices range from ₦5,000 for small decor items to ₦500,000 for premium furniture. We also offer flexible payment plans. What's your budget range?";
     } else if (lowerMessage.includes('delivery') || lowerMessage.includes('shipping')) {
         return "We deliver nationwide! Lagos delivery is 1-2 days, other states 3-5 days. Free delivery on orders over ₦100,000. Where would you like us to deliver?";
-    } else {
-        return "That's a great question! For detailed information, I recommend browsing our product categories or contacting our customer service team. Is there anything specific about home decor I can help you with?";
+    } else if (lowerMessage.includes('quiz') || lowerMessage.includes('style quiz') || lowerMessage.includes('discover my style')) {
+        // Integrate with your style quiz
+        if (typeof window.startStyleQuiz === 'function') {
+            // Added a button to directly start the quiz
+            return "Absolutely! Let's discover your unique style. <button onclick='window.startStyleQuiz(); closeChatbot();' class='btn btn-primary btn-sm' style='margin-left: 5px;'>Start Style Quiz</button>";
+        } else {
+            return "I can help with style discovery! It seems my style quiz isn't quite ready yet, but please feel free to ask about specific decor items.";
+        }
+    }
+    else {
+        return "That's a great question! For detailed information, I recommend Browse our product categories or contacting our customer service team. Is there anything specific about home decor I can help you with?";
     }
 }
 
-function closeChatbot() {
+// Function to close the chatbot modal
+window.closeChatbot = function() {
     const modal = document.getElementById('chatbotModal');
     if (modal) {
-        modal.remove();
-        document.body.style.overflow = 'auto';
+        // Remove the 'active' class to trigger the fade-out transition
+        modal.classList.remove('active');
+
+        // Remove the modal from the DOM after the transition completes (0.3s from your CSS)
+        setTimeout(() => {
+            if (modal.parentNode) { // Check if it's still in the DOM before removing
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto'; // Re-enable body scrolling
+            console.log('Chatbot modal closed.');
+        }, 300); // This delay should match your CSS transition duration
     }
 }
 
-function showFAQ() {
-    // Create FAQ modal
-    const faqModal = `
-        <div id="faqModal" class="modal" style="display: block;">
-            <div class="modal-content" style="max-width: 700px;">
+// Function to show the FAQ modal
+window.showFAQ = function() {
+    // Check if modal already exists and remove it to prevent duplicates
+    const existingModal = document.getElementById('faqModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Create FAQ modal HTML string
+    const faqModalHTML = `
+        <div id="faqModal" class="modal"> <div class="modal-content" style="max-width: 700px;">
                 <div class="modal-header">
                     <h3>Frequently Asked Questions</h3>
                     <span class="close" onclick="closeFAQ()">&times;</span>
@@ -2611,7 +3265,7 @@ function showFAQ() {
                                 <p>Free delivery on orders over ₦100,000!</p>
                             </div>
                         </div>
-                        
+
                         <div class="faq-item">
                             <button class="faq-question" onclick="toggleFAQ(2)">
                                 <span>What is your return policy?</span>
@@ -2621,17 +3275,17 @@ function showFAQ() {
                                 <p>We offer a 30-day return policy for items in original condition. Returns are free for orders over ₦50,000. Items must be unopened and include all original packaging.</p>
                             </div>
                         </div>
-                        
+
                         <div class="faq-item">
                             <button class="faq-question" onclick="toggleFAQ(3)">
                                 <span>Do you offer installation services?</span>
                                 <i class="fas fa-chevron-down"></i>
-                            </button>
+                            (</button>
                             <div class="faq-answer" id="faq3">
                                 <p>Yes! We offer professional installation for furniture and fixtures. Installation fees vary by item complexity. Contact us for a quote when placing your order.</p>
                             </div>
                         </div>
-                        
+
                         <div class="faq-item">
                             <button class="faq-question" onclick="toggleFAQ(4)">
                                 <span>What payment methods do you accept?</span>
@@ -2647,7 +3301,7 @@ function showFAQ() {
                                 </ul>
                             </div>
                         </div>
-                        
+
                         <div class="faq-item">
                             <button class="faq-question" onclick="toggleFAQ(5)">
                                 <span>Can I track my order?</span>
@@ -2657,7 +3311,7 @@ function showFAQ() {
                                 <p>Absolutely! Once your order ships, you'll receive a tracking number via SMS and email. You can also check your order status in your account dashboard.</p>
                             </div>
                         </div>
-                        
+
                         <div class="faq-item">
                             <button class="faq-question" onclick="toggleFAQ(6)">
                                 <span>Do you have a physical store?</span>
@@ -2668,7 +3322,7 @@ function showFAQ() {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: center;">
                         <h4>Still have questions?</h4>
                         <p>Contact us at <strong>support@homevibe.ng</strong> or call <strong>0800-HOME-VIBE</strong></p>
@@ -2678,42 +3332,68 @@ function showFAQ() {
             </div>
         </div>
     `;
-    
-    document.body.insertAdjacentHTML('beforeend', faqModal);
-    document.body.style.overflow = 'hidden';
-}
 
-function toggleFAQ(number) {
-    const answer = document.getElementById(`faq${number}`);
-    const question = answer.previousElementSibling;
-    const icon = question.querySelector('i');
-    
-    if (answer.style.display === 'block') {
-        answer.style.display = 'none';
-        icon.classList.remove('fa-chevron-up');
-        icon.classList.add('fa-chevron-down');
+    // Insert the modal HTML into the body
+    document.body.insertAdjacentHTML('beforeend', faqModalHTML);
+    document.body.style.overflow = 'hidden'; // Prevent body scrolling
+
+    // Get the newly created modal element
+    const faqElement = document.getElementById('faqModal');
+    if (faqElement) {
+        // Add the 'active' class to make it visible with CSS transition
+        faqElement.classList.add('active');
+        console.log('FAQ modal created and set to active.');
     } else {
-        // Close all other FAQs
-        document.querySelectorAll('.faq-answer').forEach(item => {
-            item.style.display = 'none';
-        });
-        document.querySelectorAll('.faq-question i').forEach(icon => {
-            icon.classList.remove('fa-chevron-up');
-            icon.classList.add('fa-chevron-down');
-        });
-        
-        // Open selected FAQ
-        answer.style.display = 'block';
-        icon.classList.remove('fa-chevron-down');
-        icon.classList.add('fa-chevron-up');
+        console.error('Error: FAQ modal element not found after insertion.');
     }
 }
 
-function closeFAQ() {
+// Function to toggle FAQ answers
+window.toggleFAQ = function(number) {
+    const answer = document.getElementById(`faq${number}`);
+    const questionButton = answer.previousElementSibling; // The button itself
+    const icon = questionButton.querySelector('i'); // The icon within the button
+
+    // Check if the clicked answer is currently visible
+    const isCurrentlyOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+    // Close all other FAQs and reset their icons
+    document.querySelectorAll('.faq-answer').forEach(item => {
+        item.style.maxHeight = '0'; // Collapse using maxHeight for smooth transition
+        item.style.padding = '0 15px'; // Adjust padding to hide content completely
+        item.style.overflow = 'hidden'; // Hide overflow during transition
+    });
+    document.querySelectorAll('.faq-question i').forEach(iconElement => {
+        iconElement.classList.remove('fa-chevron-up');
+        iconElement.classList.add('fa-chevron-down');
+    });
+
+    if (!isCurrentlyOpen) {
+        // Open the clicked FAQ
+        // Set maxHeight to scrollHeight to allow for content expansion
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        answer.style.padding = '0 15px 15px 15px'; // Restore bottom padding
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+    }
+    // If it was already open, the "close all others" step above effectively closes it.
+}
+
+// Function to close the FAQ modal
+window.closeFAQ = function() {
     const modal = document.getElementById('faqModal');
     if (modal) {
-        modal.remove();
-        document.body.style.overflow = 'auto';
+        // Remove the 'active' class to trigger the fade-out transition
+        modal.classList.remove('active');
+
+        // Remove the modal from the DOM after the transition completes (0.3s from your CSS)
+        setTimeout(() => {
+            if (modal.parentNode) { // Check if it's still in the DOM before removing
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto'; // Re-enable body scrolling
+            console.log('FAQ modal closed.');
+        }, 300); // This delay should match your CSS transition duration
     }
 }
 
