@@ -485,42 +485,39 @@
             });
         });
         
-        // Login form functionality
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
-            
-            // Hardcoded credentials
-            if (username === 'group16' && password === 'pass123') {
-                // Successful login
-                errorMessage.style.display = 'none';
-                
-                // Add success animation
-                const loginBtn = document.querySelector('.login-btn');
-                loginBtn.textContent = 'Success!';
-                loginBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
-                
-                // Redirect after a brief delay
-                setTimeout(() => {
-                    window.location.href = 'main.html';
-                }, 1000);
-            } else {
-                // Show error message
-                errorMessage.style.display = 'block';
-                
-                // Add shake animation to form
-                const loginForm = document.querySelector('.login-form');
-                loginForm.style.animation = 'shake 0.5s ease-in-out';
-                
-                setTimeout(() => {
-                    loginForm.style.animation = '';
-                }, 500);
-            }
-        });
-        
+       // Login form functionality
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Hardcoded credentials
+    if (username === 'group16' && password === 'pass123') {
+        // Successful login
+        errorMessage.style.display = 'none';
+
+        // Add success animation (this will show briefly before redirect if it's instant)
+        const loginBtn = document.querySelector('.login-btn');
+        loginBtn.textContent = 'Success!';
+        loginBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+
+        // Redirect instantly
+        window.location.href = 'main.html'; // Changed line
+    } else {
+        // Show error message
+        errorMessage.style.display = 'block';
+
+        // Add shake animation to form
+        const loginForm = document.querySelector('.login-form');
+        loginForm.style.animation = 'shake 0.5s ease-in-out';
+
+        setTimeout(() => {
+            loginForm.style.animation = '';
+        }, 500);
+    }
+});
         // Add shake animation keyframes
         const style = document.createElement('style');
         style.textContent = `
