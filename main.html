@@ -1141,6 +1141,22 @@
 .faq-container {
     max-height: 400px;
     overflow-y: auto;
+    /* Add some general styling for the scrollbar if desired */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #ccc #f1f1f1; /* Firefox */
+}
+
+.faq-container::-webkit-scrollbar {
+    width: 8px; /* WebKit */
+}
+
+.faq-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* WebKit */
+}
+
+.faq-container::-webkit-scrollbar-thumb {
+    background: #ccc; /* WebKit */
+    border-radius: 4px;
 }
 
 .faq-item {
@@ -1159,17 +1175,32 @@
     justify-content: space-between;
     align-items: center;
     font-weight: 500;
+      font-weight: bold;
     font-size: 16px;
+    color: #333; /* Ensure text color is visible */
 }
+
 
 .faq-question:hover {
     background: #f8f9fa;
 }
 
+/* --- CORRECTED FAQ ANSWER STYLES --- */
 .faq-answer {
-    display: none;
-    padding: 0 15px 15px 15px;
+    /* Always display block so max-height and padding transitions can work */
+    display: block;
+    max-height: 0; /* Hidden by default with 0 height */
+    overflow: hidden; /* Hide overflowing content */
+    padding: 0 15px; /* Initial padding when closed (top/bottom 0) */
     color: #666;
+    /* Smooth transition for max-height and padding */
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+/* This rule ensures correct padding when the answer is expanded by JS */
+/* The JS will set max-height to scrollHeight and padding-bottom to 15px */
+.faq-answer p:last-child {
+    margin-bottom: 0; /* Remove extra margin from last paragraph if it causes issues */
 }
 
 .faq-answer ul {
@@ -1177,36 +1208,336 @@
     padding-left: 20px;
 }
 
+/* General button styles (assuming these are shared) */
+.btn-primary {
+    background: var(--primary, #007bff); /* Use a default if --primary isn't defined */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark, #0056b3);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary, #007bff);
+    color: var(--primary, #007bff);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline:hover {
+    background: var(--primary, #007bff);
+    color: white;
+}
+
+/* Modal Specific Styles (if not already defined) */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0; /* Start hidden for transition */
+    visibility: hidden; /* Start hidden for transition */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0; /* Remove default padding as header/body have their own */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease-out forwards; /* Optional: add entry animation */
+    max-height: 90vh; /* Limit content height */
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    background-color: var(--primary, #f2f2f2);
+    color: #333; /* Adjust header text color */
+    border-bottom: 1px solid #eee;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto; /* Allow scrolling for modal content if it overflows */
+    flex-grow: 1; /* Allow body to take available space */
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .modal-content {
         width: 95%;
         margin: 10px auto;
+        /* max-width: none; removed as 95% width handles it */
     }
-    
-    .quiz-options {
-        grid-template-columns: 1fr;
-    }
-    
-    .quiz-option {
-        padding: 20px;
-    }
-    
+
     .modal-header h3 {
         font-size: 20px;
     }
 
-    .faq-answer {
-    /* Existing styles */
-    display: block; /* Important: Change to 'block' here so maxHeight can control visibility */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Add transitions */
-    padding: 0 15px; /* Initial padding when closed */
+    /* quiz-options and quiz-option styles were from previous context,
+       ensure they are relevant to your final project. */
+    .quiz-options {
+        grid-template-columns: 1fr;
+    }
+
+    .quiz-option {
+        padding: 20px;
+    }
 }
 
-/* You don't need a separate class for active/open FAQ answers in CSS,
-   the JS will directly set maxHeight. */
+/* Customer Stories Specific Styles */
+.customer-stories-container {
+    padding: 10px 0;
+    max-height: 400px; /* Limit height and make scrollable if many stories */
+    overflow-y: auto;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #ccc #f1f1f1; /* Firefox */
+}
+
+.customer-stories-container::-webkit-scrollbar {
+    width: 8px; /* WebKit */
+}
+
+.customer-stories-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* WebKit */
+}
+
+.customer-stories-container::-webkit-scrollbar-thumb {
+    background: #ccc; /* WebKit */
+    border-radius: 4px;
+}
+
+.customer-story-item {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.customer-story-item:last-child {
+    margin-bottom: 0; /* No bottom margin for the last item */
+}
+
+.story-message {
+    font-style: italic;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.story-author {
+    text-align: right;
+    font-size: 0.9em;
+    color: #777;
+}
+
+.story-author strong {
+    color: #333;
+}
+
+.story-time {
+    font-size: 0.8em;
+    color: #999;
+}
+
+/* Slideshow Container */
+.slideshow-container {
+    position: relative;
+    max-width: 100%; /* Ensures it fits within the modal-body */
+    margin: auto;
+    overflow: hidden; /* Important for hiding off-screen slides */
+}
+
+/* Individual Slides */
+.gallery-slide {
+    display: none; /* Hidden by default */
+    text-align: center;
+    background-color: #f0f0f0; /* Placeholder background */
+    width: 100%;
+}
+
+.gallery-slide img {
+    width: 100%;
+    height: auto;
+    display: block; /* Remove extra space below image */
+    max-height: 500px; /* Limit max height of images */
+    object-fit: contain; /* Ensure image fits without cropping */
+}
+
+.gallery-slide.active {
+    display: block; /* Show active slide */
+}
+
+/* Next & previous buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent background */
+}
+
+/* Position the "next button" to the right */
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background with a little more opacity */
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* The dots/bullets/indicators */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.dot.active, .dot:hover {
+    background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+/* Responsive Video Container */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (height / width = 9 / 16 = 0.5625) */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000; /* Black background for video player */
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Article Specific Styles */
+.articles-container {
+    max-height: 500px; /* Limit height and make scrollable if content overflows */
+    overflow-y: auto;
+    padding-right: 15px; /* Add some padding for scrollbar */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #ccc #f1f1f1; /* Firefox */
+}
+
+.articles-container::-webkit-scrollbar {
+    width: 8px; /* WebKit */
+}
+
+.articles-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* WebKit */
+}
+
+.articles-container::-webkit-scrollbar-thumb {
+    background: #ccc; /* WebKit */
+    border-radius: 4px;
+}
+
+.article-item {
+    margin-bottom: 25px; /* Space between articles */
+}
+
+.article-item h4 {
+    font-size: 1.3em;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.article-content p {
+    line-height: 1.6;
+    margin-bottom: 1em;
+    color: #555;
+}
+
+.article-separator {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+    margin: 30px 0;
 }
     </style>
 </head>
@@ -1470,16 +1801,16 @@
                         <i class="fas fa-palette"></i>
                     </div>
                     <h3>Budget Decorating Tips</h3>
-                    <p>Transform your space without breaking the bank. Nigerian-friendly decorating hacks.</p>
-                    <a href="https://www.realhomes.com/advice/decorating-on-a-budget" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Read Article</a>
+    <p>Transform your space without breaking the bank. Nigerian-friendly decorating hacks.</p>
+    <button class="btn btn-primary" style="margin-top: 20px;" onclick="showBudgetTipsModal()">Read Article</button>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon" style="background: var(--gradient-secondary);">
                         <i class="fas fa-tools"></i>
                     </div>
-                    <h3>Basic Furniture Assembly</h3>
-                    <p>Step-by-step guides for assembling your new furniture safely and efficiently.</p>
-                    <a href="https://www.youtube.com/watch?v=kGZDRWCf1oA" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Watch Tutorial</a>
+                     <h3>Basic Furniture Assembly</h3>
+    <p>Step-by-step guides for assembling your new furniture safely and efficiently.</p>
+    <button class="btn btn-primary" style="margin-top: 20px;" onclick="showVideoTutorialModal()">Watch Tutorial</button>
                 </div>
             </div>
         </div>
@@ -1505,21 +1836,21 @@
                     <a href="https://www.reddit.com/r/HomeDecorating/" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Join Discussion</a>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-camera"></i>
-                    </div>
-                    <h3>Photo Gallery</h3>
-                    <p>Share photos of your decorated spaces and get inspired by others' beautiful homes.</p>
-                    <a href="https://www.pinterest.com/search/pins/?q=home%20decor%20inspiration" target="_blank" class="btn btn-primary" style="margin-top: 20px;">View Gallery</a>
-                </div>
+    <div class="feature-icon">
+        <i class="fas fa-camera"></i>
+    </div>
+    <h3>Photo Gallery</h3>
+    <p>Share photos of your decorated spaces and get inspired by others' beautiful homes.</p>
+    <button class="btn btn-primary" style="margin-top: 20px;" onclick="showPhotoGalleryModal()">View Gallery</button>
+</div>
                 <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h3>Customer Stories</h3>
-                    <p>Read real stories from customers who transformed their homes with HomeVibe products.</p>
-                    <a href="https://www.houzz.com/ideabooks/home-design" target="_blank" class="btn btn-primary" style="margin-top: 20px;">Read Stories</a>
-                </div>
+    <div class="feature-icon">
+        <i class="fas fa-star"></i>
+    </div>
+    <h3>Customer Stories</h3>
+    <p>Read real stories from customers who transformed their homes with HomeVibe products.</p>
+    <button class="btn btn-primary" style="margin-top: 20px;" onclick="showCustomerStoriesModal()">Read Stories</button>
+</div>
             </div>
         </div>
     </section>
@@ -3457,7 +3788,8 @@ window.showFAQ = function() {
 
     // Create FAQ modal HTML string
     const faqModalHTML = `
-        <div id="faqModal" class="modal"> <div class="modal-content" style="max-width: 700px;">
+        <div id="faqModal" class="modal">
+            <div class="modal-content" style="max-width: 700px;">
                 <div class="modal-header">
                     <h3>Frequently Asked Questions</h3>
                     <span class="close" onclick="closeFAQ()">&times;</span>
@@ -3494,7 +3826,7 @@ window.showFAQ = function() {
                             <button class="faq-question" onclick="toggleFAQ(3)">
                                 <span>Do you offer installation services?</span>
                                 <i class="fas fa-chevron-down"></i>
-                            (</button>
+                            </button>
                             <div class="faq-answer" id="faq3">
                                 <p>Yes! We offer professional installation for furniture and fixtures. Installation fees vary by item complexity. Contact us for a quote when placing your order.</p>
                             </div>
@@ -3539,7 +3871,7 @@ window.showFAQ = function() {
 
                     <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: center;">
                         <h4>Still have questions?</h4>
-                        <p>Contact us at <strong>support@homevibe.ng</strong> or call <strong>0800-HOME-VIBE</strong></p>
+                        <p>Contact us at **support@homevibe.ng** or call **0800-HOME-VIBE**</p>
                         <button class="btn btn-primary" onclick="openChatbot(); closeFAQ();">Chat with us</button>
                     </div>
                 </div>
@@ -3565,32 +3897,36 @@ window.showFAQ = function() {
 // Function to toggle FAQ answers
 window.toggleFAQ = function(number) {
     const answer = document.getElementById(`faq${number}`);
-    const questionButton = answer.previousElementSibling; // The button itself
-    const icon = questionButton.querySelector('i'); // The icon within the button
+    const questionButton = answer.previousElementSibling;
+    const icon = questionButton.querySelector('i');
 
     // Check if the clicked answer is currently visible
-    const isCurrentlyOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+    const isCurrentlyOpen = answer.style.maxHeight !== '0px';
 
     // Close all other FAQs and reset their icons
     document.querySelectorAll('.faq-answer').forEach(item => {
-        item.style.maxHeight = '0'; // Collapse using maxHeight for smooth transition
-        item.style.padding = '0 15px'; // Adjust padding to hide content completely
-        item.style.overflow = 'hidden'; // Hide overflow during transition
-    });
-    document.querySelectorAll('.faq-question i').forEach(iconElement => {
-        iconElement.classList.remove('fa-chevron-up');
-        iconElement.classList.add('fa-chevron-down');
+        if (item !== answer) { // Only close others
+            item.style.maxHeight = '0';
+            item.style.paddingBottom = '0';
+            const otherIcon = item.previousElementSibling.querySelector('i');
+            otherIcon.classList.remove('fa-chevron-up');
+            otherIcon.classList.add('fa-chevron-down');
+        }
     });
 
     if (!isCurrentlyOpen) {
         // Open the clicked FAQ
-        // Set maxHeight to scrollHeight to allow for content expansion
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-        answer.style.padding = '0 15px 15px 15px'; // Restore bottom padding
+        answer.style.maxHeight = answer.scrollHeight + 'px'; // Set maxHeight to content height
+        answer.style.paddingBottom = '15px'; // Apply desired padding
         icon.classList.remove('fa-chevron-down');
         icon.classList.add('fa-chevron-up');
+    } else {
+        // Close the clicked FAQ
+        answer.style.maxHeight = '0';
+        answer.style.paddingBottom = '0';
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
     }
-    // If it was already open, the "close all others" step above effectively closes it.
 }
 
 // Function to close the FAQ modal
@@ -3610,125 +3946,8 @@ window.closeFAQ = function() {
         }, 300); // This delay should match your CSS transition duration
     }
 }
-
 // Add CSS styles for the new elements
-const additionalStyles = `
-<style>
-.quiz-question h4 {
-    margin-bottom: 20px;
-    color: var(--primary);
-}
 
-.quiz-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-.quiz-option {
-    padding: 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-align: center;
-    font-size: 14px;
-}
-
-.quiz-option:hover {
-    border-color: var(--primary);
-    background: #f8f9ff;
-}
-
-.quiz-option i {
-    display: block;
-    font-size: 24px;
-    margin-bottom: 8px;
-    color: var(--primary);
-}
-
-.chat-message {
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 8px;
-}
-
-.faq-container {
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.faq-item {
-    border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 10px;
-}
-
-.faq-question {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    background: none;
-    text-align: left;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 500;
-    font-size: 16px;
-}
-
-.faq-question:hover {
-    background: #f8f9fa;
-}
-
-.faq-answer {
-    display: none;
-    padding: 0 15px 15px 15px;
-    color: #666;
-}
-
-.faq-answer ul {
-    margin: 10px 0;
-    padding-left: 20px;
-}
-
-.btn-outline {
-    background: transparent;
-    border: 1px solid var(--primary);
-    color: var(--primary);
-}
-
-.btn-outline:hover {
-    background: var(--primary);
-    color: white;
-}
-</style>
-`;
-
-// Add the styles to the document
-document.head.insertAdjacentHTML('beforeend', additionalStyles);
-
-        function trackOrder() {
-            const trackingInput = document.getElementById('trackingInput');
-            const trackingResult = document.getElementById('trackingResult');
-            
-            if (trackingInput && trackingResult) {
-                const orderNumber = trackingInput.value.trim();
-                if (!orderNumber) {
-                    showToast('Please enter an order number', 'error');
-                    return;
-                }
-                
-                trackingResult.innerHTML = `
-                    <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px;">
-                        <h4>Order #${orderNumber}</h4>
-                        <p style="color: var(--success-color); margin: 10px 0;">Status: Order Confirmed</p>
-                        <p style="font-size: 14px; color: var(--text-gray);">Your order is being processed and will be shipped soon!</p>
-                    </div>
-                `;
-            }
-        }
 
         function subscribeToAR() {
             const emailInput = document.getElementById('arEmailInput');
@@ -3775,6 +3994,399 @@ document.head.insertAdjacentHTML('beforeend', additionalStyles);
                 });
             });
         });
+
+
+        // Function to show the Customer Stories modal
+window.showCustomerStoriesModal = function() {
+    // Check if modal already exists and remove it to prevent duplicates
+    const existingModal = document.getElementById('customerStoriesModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Hardcoded Customer Stories data
+    const stories = [
+        {
+            name: "Lanre A.",
+            location: "Lagos, Nigeria",
+            time: "2 days ago",
+            message: "HomeVibe transformed my living room! The sofa is even more beautiful in person, and the delivery was incredibly fast. Highly recommend for quality and service! ⭐⭐⭐⭐⭐"
+        },
+        {
+            name: "Tochukwu O.",
+            location: "Abuja, Nigeria",
+            time: "1 week ago",
+            message: "I was hesitant to buy furniture online, but HomeVibe exceeded all my expectations. The bed frame is sturdy, stylish, and exactly what I needed. Plus, the installment payment option was a lifesaver! Thank you, HomeVibe! ✨"
+        },
+        {
+            name: "Mutiu B.",
+            location: "Port Harcourt, Nigeria",
+            time: "2 weeks ago",
+            message: "From elegant dining chairs to unique decor pieces, HomeVibe has truly elevated my home's aesthetic. Their customer service is top-notch, assisting me with every step. I'm a loyal customer now! 🏠💖"
+        },
+        {
+            name: "Emmanuel E.",
+            location: "Kano, Nigeria",
+            time: "1 month ago",
+            message: "Fast delivery and amazing quality! My new office desk from HomeVibe is perfect. It was easy to assemble, and the wood finish is premium. Couldn't be happier with my purchase. 👍"
+        }
+    ];
+
+    // Generate HTML for each story
+    const storiesHTML = stories.map(story => `
+        <div class="customer-story-item">
+            <p class="story-message">"${story.message}"</p>
+            <p class="story-author"><strong>- ${story.name}</strong>, ${story.location} <span class="story-time">(${story.time})</span></p>
+        </div>
+    `).join(''); // Join all story HTML strings
+
+    // Create modal HTML string
+    const customerStoriesModalHTML = `
+        <div id="customerStoriesModal" class="modal">
+            <div class="modal-content" style="max-width: 600px;">
+                <div class="modal-header">
+                    <h3>What Our Customers Say</h3>
+                    <span class="close" onclick="closeCustomerStoriesModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="customer-stories-container">
+                        ${storiesHTML}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Insert the modal HTML into the body
+    document.body.insertAdjacentHTML('beforeend', customerStoriesModalHTML);
+    document.body.style.overflow = 'hidden'; // Prevent body scrolling
+
+    // Get the newly created modal element
+    const modalElement = document.getElementById('customerStoriesModal');
+    if (modalElement) {
+        // Add the 'active' class to make it visible with CSS transition
+        modalElement.classList.add('active');
+        console.log('Customer Stories modal created and set to active.');
+    } else {
+        console.error('Error: Customer Stories modal element not found after insertion.');
+    }
+}
+
+// Function to close the Customer Stories modal
+window.closeCustomerStoriesModal = function() {
+    const modal = document.getElementById('customerStoriesModal');
+    if (modal) {
+        // Remove the 'active' class to trigger the fade-out transition
+        modal.classList.remove('active');
+
+        // Remove the modal from the DOM after the transition completes (0.3s from your CSS)
+        setTimeout(() => {
+            if (modal.parentNode) { // Check if it's still in the DOM before removing
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto'; // Re-enable body scrolling
+            console.log('Customer Stories modal closed.');
+        }, 300); // This delay should match your CSS transition duration
+    }
+}
+
+// Array of image paths for the gallery
+const galleryImages = [
+  // Home Office Setups
+  'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Modern home office with desk
+  'https://images.unsplash.com/photo-1541558869434-2840d308329a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Minimalist workspace
+  'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Home office with plants
+  'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Clean desk setup
+  'https://images.unsplash.com/photo-1597218868981-1b68e15f0065?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Standing desk office
+  
+  // Home Kitchens
+  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Modern white kitchen
+  'https://images.unsplash.com/photo-1556909114-35c1ca2b1350?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dark kitchen with island
+  'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Rustic kitchen setup
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Contemporary kitchen design
+  'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Bright kitchen with appliances
+  
+  // Office Spaces
+  'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Modern office interior
+  'https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Open office space
+  'https://images.unsplash.com/photo-1604328698692-f76ea9498e76?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Corporate office setup
+  'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Meeting room design
+  
+  // Mixed Home & Office Settings
+  'https://images.unsplash.com/photo-1551522435-a13afa10f103?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Kitchen office combo
+  'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Living room workspace
+  'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Cozy home office nook
+  'https://images.unsplash.com/photo-1571624436279-b272aff752b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Kitchen workspace design
+  'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Multi-functional space
+  'https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'  // Kitchen organization setup
+];
+
+let currentSlideIndex = 0; // Keep track of the current image
+
+// Function to show the Photo Gallery modal
+window.showPhotoGalleryModal = function() {
+    const existingModal = document.getElementById('photoGalleryModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Generate slides HTML
+    const slidesHTML = galleryImages.map((src, index) => `
+        <div class="gallery-slide fade ${index === 0 ? 'active' : ''}">
+            <img src="${src}" alt="Home Decor ${index + 1}">
+        </div>
+    `).join('');
+
+    const photoGalleryModalHTML = `
+        <div id="photoGalleryModal" class="modal">
+            <div class="modal-content" style="max-width: 700px; padding: 0;">
+                <div class="modal-header">
+                    <h3>Photo Gallery</h3>
+                    <span class="close" onclick="closePhotoGalleryModal()">&times;</span>
+                </div>
+                <div class="modal-body" style="padding: 0;">
+                    <div class="slideshow-container">
+                        ${slidesHTML}
+                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                    </div>
+                    <div style="text-align:center; padding: 10px;">
+                        ${galleryImages.map((_, index) => `<span class="dot" onclick="currentSlide(${index + 1})"></span>`).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', photoGalleryModalHTML);
+    document.body.style.overflow = 'hidden';
+
+    const modalElement = document.getElementById('photoGalleryModal');
+    if (modalElement) {
+        modalElement.classList.add('active');
+        // Initialize carousel to show the first slide and dots
+        currentSlideIndex = 0; // Reset to first slide every time modal opens
+        showSlides(currentSlideIndex);
+        console.log('Photo Gallery modal created and set to active.');
+    } else {
+        console.error('Error: Photo Gallery modal element not found after insertion.');
+    }
+};
+
+// Carousel navigation functions
+window.plusSlides = function(n) {
+    showSlides(currentSlideIndex += n);
+};
+
+window.currentSlide = function(n) {
+    showSlides(currentSlideIndex = n - 1); // Adjust for 0-based index
+};
+
+function showSlides(n) {
+    const slides = document.getElementsByClassName("gallery-slide");
+    const dots = document.getElementsByClassName("dot");
+
+    if (n >= slides.length) {
+        currentSlideIndex = 0; // Loop back to the first slide
+    }
+    if (n < 0) {
+        currentSlideIndex = slides.length - 1; // Loop to the last slide
+    }
+
+    // Hide all slides
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove('active');
+    }
+    // Deactivate all dots
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove('active');
+    }
+
+    // Show the current slide and activate the corresponding dot
+    slides[currentSlideIndex].classList.add('active');
+    dots[currentSlideIndex].classList.add('active');
+}
+
+// Function to show the Video Tutorial modal
+window.showVideoTutorialModal = function() {
+    // Check if modal already exists and remove it to prevent duplicates
+    const existingModal = document.getElementById('videoTutorialModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Video details (you might want to update the title if it's a different video)
+    const videoTitle = 'Furniture Assembly Tutorial'; // You can change this title
+    const videoUrl = 'https://www.youtube.com/watch?v=CPPNCGdX7Jo'; // UPDATED VIDEO URL
+
+    // Create modal HTML string with the YouTube iframe
+    const videoTutorialModalHTML = `
+        <div id="videoTutorialModal" class="modal">
+            <div class="modal-content" style="max-width: 800px; padding: 0;">
+                <div class="modal-header">
+                    <h3>${videoTitle}</h3>
+                    <span class="close" onclick="closeVideoTutorialModal()">×</span>
+                </div>
+                <div class="modal-body" style="padding: 0;">
+                    <div class="video-container">
+                        <iframe
+                            src="${videoUrl}?autoplay=1&rel=0"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            title="${videoTitle}"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Insert the modal HTML into the body
+    document.body.insertAdjacentHTML('beforeend', videoTutorialModalHTML);
+    document.body.style.overflow = 'hidden'; // Prevent body scrolling
+
+    // Get the newly created modal element
+    const modalElement = document.getElementById('videoTutorialModal');
+    if (modalElement) {
+        // Add the 'active' class to make it visible with CSS transition
+        modalElement.classList.add('active');
+        console.log('Video Tutorial modal created and set to active.');
+    } else {
+        console.error('Error: Video Tutorial modal element not found after insertion.');
+    }
+};
+
+// Function to close the Video Tutorial modal (remains the same)
+window.closeVideoTutorialModal = function() {
+    const modal = document.getElementById('videoTutorialModal');
+    if (modal) {
+        // Remove the 'active' class to trigger the fade-out transition
+        modal.classList.remove('active');
+
+        // Remove the modal from the DOM after the transition completes (0.3s from your CSS)
+        setTimeout(() => {
+            if (modal.parentNode) { // Check if it's still in the DOM before removing
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto'; // Re-enable body scrolling
+            console.log('Video Tutorial modal closed.');
+        }, 300); // This delay should match your CSS transition duration
+    }
+};
+
+// Function to show the Budget Decorating Tips modal
+window.showBudgetTipsModal = function() {
+    // Check if modal already exists and remove it to prevent duplicates
+    const existingModal = document.getElementById('budgetTipsModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Hardcoded Article Data
+    const articles = [
+        {
+            title: "Nigerian Budget Decorating Hack #1: Embrace Local Crafts",
+            content: `
+                <p>One of the most effective ways to decorate on a budget in Nigeria is to leverage our rich local craftsmanship. Instead of importing expensive decor, explore local markets like Balogun Market or Arts & Crafts Village for unique, handmade pieces.</p>
+                <p>Think intricately carved wooden stools, vibrant Ankara throw pillows, hand-woven baskets, and beautiful pottery. These items not only add character and a touch of cultural flair to your home but are also significantly more affordable and support local artisans.</p>
+                <p>For instance, a set of hand-woven placemats can instantly uplift your dining area, or a large, patterned fabric can serve as an affordable, statement-making wall hanging.</p>
+            `
+        },
+        {
+            title: "Nigerian Budget Decorating Hack #2: DIY and Repurposing",
+            content: `
+                <p>Unleash your inner DIY guru! Repurposing old items can save you a fortune. That old tire? Clean it, paint it, and add a cushion to turn it into a chic ottoman. Empty glass bottles or jars can be transformed into elegant vases or candle holders with a bit of paint or twine.</p>
+                <p>Consider painting an old wooden crate to use as a rustic bookshelf or bedside table. Even old fabrics can be cut and sewn into unique cushion covers or wall art. YouTube and Pinterest are fantastic resources for simple DIY projects using readily available materials.</p>
+                <p>Look around your home for items you no longer use in their original capacity and imagine their potential for a new life. A little creativity goes a long way!</p>
+            `
+        },
+        {
+            title: "Nigerian Budget Decorating Hack #3: Strategic Thrift Shopping & Swapping",
+            content: `
+                <p>Don't shy away from thrift stores or "bend down select" markets (like Yaba Market for clothes, but look for furniture/decor specific ones if available, or online groups). You can find hidden gems like vintage furniture, unique lamps, or decorative items that just need a little TLC (tender loving care).</p>
+                <p>A chipped antique table might look brand new with a fresh coat of paint, or an old picture frame can be revamped for a modern look. Additionally, consider organizing a "decor swap" with friends or family. Everyone brings items they no longer want, and you all get to refresh your spaces for free!</p>
+                <p>Online communities and local Facebook groups often have "for sale" or "free" sections where people give away furniture or decor items. Patience and persistence are key for successful thrift shopping.</p>
+            `
+        }
+    ];
+
+    // Generate HTML for each article
+    const articlesHTML = articles.map((article, index) => `
+        <div class="article-item">
+            <h4>${article.title}</h4>
+            <div class="article-content">${article.content}</div>
+        </div>
+        ${index < articles.length - 1 ? '<hr class="article-separator">' : ''}
+    `).join('');
+
+    // Create modal HTML string
+    const budgetTipsModalHTML = `
+        <div id="budgetTipsModal" class="modal">
+            <div class="modal-content" style="max-width: 800px;">
+                <div class="modal-header">
+                    <h3>Budget Decorating Tips</h3>
+                    <span class="close" onclick="closeBudgetTipsModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="articles-container">
+                        ${articlesHTML}
+                    </div>
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button class="btn btn-outline" onclick="closeBudgetTipsModal()">Close Reading</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Insert the modal HTML into the body
+    document.body.insertAdjacentHTML('beforeend', budgetTipsModalHTML);
+    document.body.style.overflow = 'hidden'; // Prevent body scrolling
+
+    // Get the newly created modal element
+    const modalElement = document.getElementById('budgetTipsModal');
+    if (modalElement) {
+        // Add the 'active' class to make it visible with CSS transition
+        modalElement.classList.add('active');
+        console.log('Budget Tips modal created and set to active.');
+    } else {
+        console.error('Error: Budget Tips modal element not found after insertion.');
+    }
+};
+
+// Function to close the Budget Tips modal
+window.closeBudgetTipsModal = function() {
+    const modal = document.getElementById('budgetTipsModal');
+    if (modal) {
+        // Remove the 'active' class to trigger the fade-out transition
+        modal.classList.remove('active');
+
+        // Remove the modal from the DOM after the transition completes (0.3s from your CSS)
+        setTimeout(() => {
+            if (modal.parentNode) { // Check if it's still in the DOM before removing
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto'; // Re-enable body scrolling
+            console.log('Budget Tips modal closed.');
+        }, 300); // This delay should match your CSS transition duration
+    }
+};
+
+// Function to close the Photo Gallery modal
+window.closePhotoGalleryModal = function() {
+    const modal = document.getElementById('photoGalleryModal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto';
+            console.log('Photo Gallery modal closed.');
+        }, 300);
+    }
+};
 
         // Handle window resize
         window.addEventListener('resize', function() {
