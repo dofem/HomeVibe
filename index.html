@@ -369,6 +369,32 @@
                 font-size: 2rem;
             }
         }
+        /* Existing shake animation (if you have it) */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* New animation for the page transition */
+@keyframes fadeOutRoll {
+    0% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+        transform-origin: top center; /* Start rotation from the top */
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh) rotateX(90deg); /* Move up and rotate */
+        transform-origin: top center;
+    }
+}
+
+.fade-out-roll {
+    animation: fadeOutRoll 0.8s ease-in-out forwards; /* 0.8s duration, forwards keeps the final state */
+}
     </style>
 </head>
 <body>
@@ -485,7 +511,7 @@
             });
         });
         
-       // Login form functionality
+      // Login form functionality
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -498,18 +524,22 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         // Successful login
         errorMessage.style.display = 'none';
 
-        // Add success animation (this will show briefly before redirect if it's instant)
         const loginBtn = document.querySelector('.login-btn');
         loginBtn.textContent = 'Success!';
         loginBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
 
-        // Redirect instantly
-        window.location.href = 'main.html'; // Changed line
+        // Add a class to the body to trigger the exit animation
+        document.body.classList.add('fade-out-roll');
+
+        // Delay the redirect to allow the animation to play
+        setTimeout(() => {
+            window.location.href = 'main.html';
+        }, 800); // 800ms matches the animation duration
+
     } else {
         // Show error message
         errorMessage.style.display = 'block';
 
-        // Add shake animation to form
         const loginForm = document.querySelector('.login-form');
         loginForm.style.animation = 'shake 0.5s ease-in-out';
 
